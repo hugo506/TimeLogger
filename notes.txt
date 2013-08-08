@@ -1,6 +1,0 @@
-Models
-
-1. Following fields should be indexed in the activities table
-    - author name
-    - activity type
-    - categorization type
