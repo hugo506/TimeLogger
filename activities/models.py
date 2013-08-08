@@ -6,7 +6,7 @@ class Author(models.Model):
     email = models.CharField(max_length=200)
     password = models.CharField(max_length=200)
     onsite_team = models.BooleanField() # True: onsite, False: Offshore
-    created_on = models.DateTimeField()
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.fullname
@@ -18,7 +18,7 @@ class Author(models.Model):
 class Category(models.Model):
     category_type = models.CharField(max_length=200)
     parent_category = models.CharField(max_length=200)
-    created_on = models.DateTimeField()
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.category_type
@@ -31,8 +31,9 @@ class Activity(models.Model):
     author = models.ForeignKey(Author)
     ticket_number = models.IntegerField()
     hours_worked = models.IntegerField(default=0)
-    created_on = models.DateTimeField()
     categorization = models.CharField(max_length=200)
+    created_on = models.DateTimeField(auto_now_add=True)
+    modified_on = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.description

@@ -3,6 +3,7 @@ from django.contrib import admin
 
 class AuthorAdmin(admin.ModelAdmin):
     fields = ["fullname", "email", "password", "onsite_team"]
+    list_display = ["fullname", "email", "onsite_team"]
 
 class ActivityAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -11,14 +12,9 @@ class ActivityAdmin(admin.ModelAdmin):
         ('Date Information', { 'fields' : ["activity_date"]})
     ]
 
-
-class CategoryInline(admin.StackedInline):
-    model = Category
-    extra = 8
-
 class CategoryAdmin(admin.ModelAdmin):
     fields = ["category_type", "parent_category"]
-    inlines = [CategoryInline]
+    list_display = ["category_type", "parent_category"]
 
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Activity, ActivityAdmin)
