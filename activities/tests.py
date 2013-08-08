@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from activities.models import Author, Activity, Category
-from datetime import datetime
 
 # template methods for creating dummy model instances
 def create_author(fullname = "Foo Bar", email="foo@bar.com", password="foobar", onsite_team=True):
@@ -69,3 +68,10 @@ class ActivityViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "List of activities")
         self.assertEqual(len(response.context['results']), 1)
+
+class IndexPageTest(TestCase):
+    def test_authentication_message(self):
+        response = self.client.get(reverse('index'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Anonymous")
+

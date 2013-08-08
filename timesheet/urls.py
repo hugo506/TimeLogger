@@ -9,16 +9,12 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', views.index, name="index"),
 
-    url(r'^hello/(?P<owner>\d+)$', views.detail, name="detail"),
-
     url(r'^activity/$',
         ListView.as_view(
             queryset=Activity.objects.order_by("activity_date"),
             context_object_name="results",
             template_name="activities/list.html"),
         name="activity_listing"),
-
-    url(r'^add/$', views.author_add, name="add_author"),
 
     url(r'^admin/', include(admin.site.urls)),
 )

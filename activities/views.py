@@ -1,12 +1,7 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
 
 def index(request):
-    context = {'name' : 'Prakhar'}
-    return render(request, "activities/index.html", context)
-
-def detail(request, owner):
-    return HttpResponse("My lucky number is %s" % owner)
-
-def author_add(request):
-    return render(request, "activities/add_author.html")
+    if request.user.is_authenticated():
+        return render(request, "activities/index.html", {'name' : 'Prakhar'})
+    return redirect('/admin/')
