@@ -1,9 +1,5 @@
-from activities.models import Author, Activity, Category
+from activities.models import AuthorInfo, Activity, Category
 from django.contrib import admin
-
-class AuthorAdmin(admin.ModelAdmin):
-    fields = ["fullname", "email", "password", "onsite_team"]
-    list_display = ["fullname", "email", "onsite_team"]
 
 class ActivityAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -15,9 +11,13 @@ class ActivityAdmin(admin.ModelAdmin):
     list_filter = ["author", "activity_date"]
 
 class CategoryAdmin(admin.ModelAdmin):
-    fields = ["category_name", "parent_category"]
+    fields = ["category_name", "parent_category", "category_description"]
     list_display = ["category_name", "parent_category"]
 
-admin.site.register(Author, AuthorAdmin)
+
+class AuthorInfoAdmin(admin.ModelAdmin):
+    list_display = ["author", "designation", "onsite_team"]
+
+admin.site.register(AuthorInfo, AuthorInfoAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(Category, CategoryAdmin)
