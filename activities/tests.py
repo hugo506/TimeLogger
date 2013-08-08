@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-from activities.models import Author, Activity, Category
+from activities.models import AuthorInfo, Activity, Category
 
 # template methods for creating dummy model instances
 def create_author(fullname = "Foo Bar", email="foo@bar.com", password="foobar", onsite_team=True):

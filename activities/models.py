@@ -10,6 +10,9 @@ class AuthorInfo(models.Model):
     def __unicode__(self):
         return self.author.username
 
+    class Meta:
+        verbose_name_plural = "Author Information"
+
 class Category(models.Model):
     category_name = models.CharField(max_length=200)
     parent_category = models.CharField(max_length=200)
@@ -18,6 +21,10 @@ class Category(models.Model):
 
     def __unicode__(self):
         return self.category_name
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
 
 class Activity(models.Model):
     description = models.TextField()
@@ -31,3 +38,9 @@ class Activity(models.Model):
 
     def __unicode__(self):
         return self.description
+
+    class Meta:
+        ordering = ["-activity_date"]
+        verbose_name_plural = "Activities"
+
+

@@ -1,3 +1,7 @@
 <h1>Hello {{ name }}!</h1>
-<h2>Welcome to the Timesheet App!</h2>
-<a href="{% url 'activity_listing' %}">Activity Listing</a>
+<h2>List of activities</h2>
+<ul>
+    {% for item in results %}
+    <li> {{ item.activity_type.category_name }}</li>
+    {% endfor %}
+</ul>
