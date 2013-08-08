@@ -12,6 +12,7 @@ class ActivityAdmin(admin.ModelAdmin):
         ('Date Information', { 'fields' : ["activity_date"]})
     ]
     list_display = ["activity_type","author", "activity_date"]
+    list_filter = ["author", "activity_date"]
 
 class CategoryAdmin(admin.ModelAdmin):
     fields = ["category_type", "parent_category"]
