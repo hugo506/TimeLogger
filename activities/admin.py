@@ -15,8 +15,8 @@ class ActivityAdmin(admin.ModelAdmin):
     list_filter = ["author", "activity_date"]
 
 class CategoryAdmin(admin.ModelAdmin):
-    fields = ["category_type", "parent_category"]
-    list_display = ["category_type", "parent_category"]
+    fields = ["category_name", "parent_category"]
+    list_display = ["category_name", "parent_category"]
 
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Activity, ActivityAdmin)

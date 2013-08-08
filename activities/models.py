@@ -16,7 +16,7 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    category_type = models.CharField(max_length=200)
+    category_name = models.CharField(max_length=200)
     parent_category = models.CharField(max_length=200)
     created_on = models.DateTimeField(auto_now_add=True)
 
