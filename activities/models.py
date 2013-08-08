@@ -20,7 +20,7 @@ class Category(models.Model):
     parent_category = models.CharField(max_length=200)
     created_on = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+def __unicode__(self):
         return self.category_type
 
 
