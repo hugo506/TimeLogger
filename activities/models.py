@@ -29,9 +29,8 @@ class Activity(models.Model):
     activity_type = models.ForeignKey(Category)
     activity_date = models.DateField()
     author = models.ForeignKey(Author)
-    ticket_number = models.IntegerField()
-    hours_worked = models.IntegerField(default=0)
-    categorization = models.CharField(max_length=200)
+    ticket_number = models.IntegerField(default=0)
+    hours_worked = models.DecimalField(default=0, decimal_places=2, max_digits=3)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
 
