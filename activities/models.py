@@ -1,10 +1,10 @@
 from django.db import models
 
 class Author(models.Model):
-    name = models.CharField(max_length=200)
+    fullname = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     password = models.CharField(max_length=200)
-    team_location = models.BooleanField()       # internal - 0, external - 1
+    onsite_team = models.BooleanField() # True: onsite, False: Offshore
 
 class Activity(models.Model):
     description = models.TextField()
