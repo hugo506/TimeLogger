@@ -1,48 +1,81 @@
-<h1>Hello {{ name }}!</h1>
-<h2>List of activities</h2>
-<ul>
-    {% for item in results %}
-    <li> {{ item.activity_type.category_name }}</li>
-    {% endfor %}
-</ul>
+{% extends "activities/base.html" %}
 
-<hr />
+{% block content %}
+<div class="row">
+<div class="col-lg-4">
+    <h3>New Activity</h3>
+    <hr />
+    <form action="{% url 'index' %}" method="post"> {% csrf_token %}
+        <fieldset>
+            {% if form.errors %}
+            <div class="bs-callout bs-callout-danger">
+                <h4>Oops! There were errors in your form submission</h4>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field }} - {{ error }} </li>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
 
-<h3>New Activity</h3>
-<form action="{% url 'index' %}" method="post"> 
-    {% csrf_token %}
+            <div class="form-group">
+                <label for="id_activity_date">Activity Date</label>
+                <input class="form-control" id="id_activity_date" name="activity_date" type="text" />
+            </div>
 
-    {{ form.non_field_errors }}
+            <div class="form-group">
+                <label for="id_activity_type">Activity Type</label>
+                <select id="id_activity_type" name="activity_type" class="form-control">
+                    <option value="" selected="selected">---------</option>
+                    <option value="1">Scrum Call</option>
+                    <option value="2">Vendor Coordination</option>
+                </select>
+            </div>
 
-    <div class="fieldWrapper">
-        {{ form.activity_date.errors }}
-        <label for="id_activity_date">Activity date:</label>
-        {{ form.activity_date }}
-    </div>
+            <div class="form-group">
+                <label for="id_description">Description</label>
+                <textarea cols="40" id="id_description" name="description" rows="3" class="form-control"></textarea>
+            </div>
 
-    <div class="fieldWrapper">
-        {{ form.activity_type.errors }}
-        <label for="id_activity_type">Activity Type:</label>
-        {{ form.activity_type }}
-    </div>
+            <div class="form-group">
+                <label for="id_ticket_number">Ticket Number</label>
+                <input class="form-control" id="id_ticket_number" name="ticket_number" type="text" value="0" />
+            </div>
 
-    <div class="fieldWrapper">
-        {{ form.description.errors }}
-        <label for="id_description">Description:</label>
-        {{ form.description }}
-    </div>
+            <div class="form-group">
+                <label for="id_hours_worked">Hours Worked</label>
+                <input id="id_hours_worked" class="form-control" name="hours_worked" type="text" value="0" />
+            </div>
 
-    <div class="fieldWrapper">
-        {{ form.ticket_number.errors }}
-        <label for="id_ticket_number">Ticket Number</label>
-        {{ form.ticket_number }}
-    </div>
 
-    <div class="fieldWrapper">
-        {{ form.hours_worked.errors }}
-        <label for="id_hours_worked">Hours Worked</label>
-        {{ form.hours_worked }}
-    </div>
+            <input type="submit" value="Add Activity!" class="btn btn-default btn-lg btn-block"/>
+        </fieldset>
 
-    <input type="submit" value="Add Activity!" />
-</form>
+    </form>
+</div>
+<div class="col-lg-8">
+    <h3>Activities</h3>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Activity Type</th>
+                <th>Ticket Number</th>
+                <th>Hours Worked</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in results %}
+            <tr>
+                <td>{{ item.activity_type.category_name }}</td>
+                <td>{{ item.ticket_number }} </td>
+                <td>{{ item.hours_worked }} </td>
+                <td>{{ item.description }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+{% endblock %}
