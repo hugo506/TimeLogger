@@ -31,7 +31,7 @@ class Activity(models.Model):
     activity_date = models.DateField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False)
     ticket_number = models.IntegerField(default=0)
-    hours_worked = models.DecimalField(default=0, decimal_places=4, max_digits=3)
+    hours_worked = models.DecimalField(default=0, decimal_places=3, max_digits=5)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
 
