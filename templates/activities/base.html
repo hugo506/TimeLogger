@@ -9,6 +9,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/datepicker.css" rel="stylesheet">
 
     <style type="text/css">
         .bs-callout{
@@ -54,7 +55,14 @@
     <!-- THE JAVASCRIPT -->
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap-datepicker.js"></script>
 
+    <script type="text/javascript">
+        (function(){
+            $('#id_activity_date').datepicker();
+         })();
+        
+    </script>
  </body>
 </html>
 
