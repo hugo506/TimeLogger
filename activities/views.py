@@ -4,6 +4,9 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from activities.forms import ContactForm, ActivityForm
+from django.http import HttpResponseRedirect
+from django.utils import timezone
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
@@ -16,7 +19,20 @@ def index(request):
 
 @login_required
 def add_activity(request):
-    return render(request, "activities/add.html", context)
+    if request.method == "POST":
+        form = ActivityForm(request.POST)
+        if form.is_valid():
+            activity = Activity(author=request.user,
+                                description=form.cleaned_data["description"],
+                                activity_date=form.cleaned_data["activity_date"],
+                                activity_type=form.cleaned_data["activity_type"],
+                                ticket_number=form.cleaned_data["ticket_number"],
+                                hours_worked=form.cleaned_data["hours_worked"])
+            activity.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = ActivityForm()
+    return render(request, "activities/add.html", { 'form' : form })
 
 def logout_view(request):
     logout(request)

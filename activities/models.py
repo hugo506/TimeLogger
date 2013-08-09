@@ -25,12 +25,11 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = "Categories"
 
-
 class Activity(models.Model):
-    description = models.TextField()
-    activity_type = models.ForeignKey(Category)
+    description = models.TextField(help_text="Acitivity description")
+    activity_type = models.ForeignKey(Category, blank=False)
     activity_date = models.DateField()
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False)
     ticket_number = models.IntegerField(default=0)
     hours_worked = models.DecimalField(default=0, decimal_places=2, max_digits=3)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -42,5 +41,3 @@ class Activity(models.Model):
     class Meta:
         ordering = ["-activity_date"]
         verbose_name_plural = "Activities"
-
-
