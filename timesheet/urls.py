@@ -13,7 +13,5 @@ urlpatterns = patterns('',
 
     url(r'^logout/$', views.logout_view, name="logout"),
 
-    url(r'^add/$', views.add_activity, name="add_activity"),
-
     url(r'^admin/', include(admin.site.urls)),
 )

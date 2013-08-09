@@ -5,4 +5,44 @@
     <li> {{ item.activity_type.category_name }}</li>
     {% endfor %}
 </ul>
-<a href="{% url 'add_activity' %}">Add Activity</a>
+
+<hr />
+
+<h3>New Activity</h3>
+<form action="{% url 'index' %}" method="post"> 
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <div class="fieldWrapper">
+        {{ form.activity_date.errors }}
+        <label for="id_activity_date">Activity date:</label>
+        {{ form.activity_date }}
+    </div>
+
+    <div class="fieldWrapper">
+        {{ form.activity_type.errors }}
+        <label for="id_activity_type">Activity Type:</label>
+        {{ form.activity_type }}
+    </div>
+
+    <div class="fieldWrapper">
+        {{ form.description.errors }}
+        <label for="id_description">Description:</label>
+        {{ form.description }}
+    </div>
+
+    <div class="fieldWrapper">
+        {{ form.ticket_number.errors }}
+        <label for="id_ticket_number">Ticket Number</label>
+        {{ form.ticket_number }}
+    </div>
+
+    <div class="fieldWrapper">
+        {{ form.hours_worked.errors }}
+        <label for="id_hours_worked">Hours Worked</label>
+        {{ form.hours_worked }}
+    </div>
+
+    <input type="submit" value="Add Activity!" />
+</form>
