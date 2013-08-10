@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from activities.forms import ActivityForm
+from activities.forms import ActivityForm, ReportsDateForm
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
@@ -34,8 +34,17 @@ def index(request):
 @login_required
 def reports(request):
     # check for admin required
+    if request.method == "POST":
+        form = ReportsDateForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data["start_date"]
+            end_date = form.cleaned_data["end_date"]
+
+            return redirect(reverse('reports'))
+    else:
+        form = ReportsDateForm()
     browser_stats = {'Chrome': 52.9, 'Opera': 20.6, 'Firefox': 27.7}
-    context = {'browser_stats': browser_stats}
+    context = {'browser_stats': browser_stats, 'form': form}
     return render(request, "activities/reporting.html", context)
 
 
