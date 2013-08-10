@@ -34,7 +34,7 @@ def index(request):
 @login_required
 def reports(request):
     # check for admin required
-    browser_stats = {'Chrome': 52.9, 'Opera': 1.6, 'Firefox': 27.7}
+    browser_stats = {'Chrome': 52.9, 'Opera': 20.6, 'Firefox': 27.7}
     context = {'browser_stats': browser_stats}
     return render(request, "activities/reporting.html", context)
 
