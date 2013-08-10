@@ -15,5 +15,4 @@ urlpatterns = patterns('',
 
     url(r'^reports/$', views.reports, name="reports"),
 
-    url(r'^admin/', include(admin.site.urls))
-)
+    url(r'^admin/', include(admin.site.urls)))

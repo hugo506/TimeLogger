@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from activities.forms import ActivityForm, ReportsDateForm
+import datetime
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
@@ -34,17 +35,24 @@ def index(request):
 @login_required
 def reports(request):
     # check for admin required
-    if request.method == "POST":
-        form = ReportsDateForm(request.POST)
-        if form.is_valid():
-            start_date = form.cleaned_data["start_date"]
-            end_date = form.cleaned_data["end_date"]
+    form = ReportsDateForm()
+    start_date_unclean = request.GET.get("start_date", False)
+    end_date_unclean = request.GET.get("end_date", False)
 
-            return redirect(reverse('reports'))
-    else:
-        form = ReportsDateForm()
-    browser_stats = {'Chrome': 52.9, 'Opera': 20.6, 'Firefox': 27.7}
-    context = {'browser_stats': browser_stats, 'form': form}
+    if not start_date_unclean or not end_date_unclean:
+        return render(request, "activities/reporting.html", {'form' : form })
+
+    start_date = datetime.datetime.strptime(start_date_unclean, "%m/%d/%Y")
+    end_date = datetime.datetime.strptime(end_date_unclean, "%m/%d/%Y")
+    context = { 'form' : form }
+    if start_date and end_date and (start_date < end_date):
+        show_data = True
+        results = {}
+        results['start_date'] = start_date
+        results['end_date'] = end_date
+        results['objects'] = Activity.objects.filter(activity_date__gte=start_date)\
+                                 .filter(activity_date__lte=end_date)
+        context = { 'form' : form, 'show_data' : show_data, 'results': results }
     return render(request, "activities/reporting.html", context)
 
 
