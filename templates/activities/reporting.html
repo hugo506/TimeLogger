@@ -9,6 +9,18 @@
         <hr />
         <form action="{% url 'reports' %}" method="POST"> {% csrf_token %}
             <fieldset>
+
+            {% if form.errors %}
+            <div class="bs-callout bs-callout-danger">
+                <h4>Oops! There were errors in your form submission</h4>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field }} - {{ error }} </li>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
                 <div class="form-group">
                     <label for="id_start_date"><span class="glyphicon glyphicon-calendar"></span>   Start Date</label>    
                     <input class="form-control" id="id_start_date" name="start_date" type="text" />
