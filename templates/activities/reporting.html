@@ -1,0 +1,16 @@
+{% extends "activities/base.html" %}
+{% load chartkick %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4">
+        {% pie_chart browser_stats with library={"title":"Browser Statistics, May 2013"} %}
+    </div>
+    <div class="col-lg-8"></div>
+</div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ STATIC_URL }}js/jsapi.js"></script>
+    <script src="{{ STATIC_URL }}chartkick.js"></script>
+{% endblock %}

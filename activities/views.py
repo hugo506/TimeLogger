@@ -25,8 +25,19 @@ def index(request):
             return redirect(reverse('index'))
     else:
         form = ActivityForm()
-    context = { 'name' : request.user.username, 'results' : results, 'form' : form}
+    context = { 'name' : request.user.username,
+                'results' : results,
+                'form' : form }
+
     return render(request, "activities/index.html", context)
+
+@login_required
+def reports(request):
+    # check for admin required
+    browser_stats = {'Chrome': 52.9, 'Opera': 1.6, 'Firefox': 27.7}
+    context = {'browser_stats': browser_stats}
+    return render(request, "activities/reporting.html", context)
+
 
 def logout_view(request):
     logout(request)

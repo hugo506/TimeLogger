@@ -1,5 +1,6 @@
 # Django settings for timesheet project.
 import os
+import chartkick
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -65,7 +66,9 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+    chartkick.js(),)
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -109,6 +112,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'activities',
+    'chartkick',
 )
 
 # A sample logging configuration. The only tangible logging
