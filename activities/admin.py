@@ -7,7 +7,7 @@ class ActivityAdmin(admin.ModelAdmin):
         ('Categorization', { 'fields' : ["activity_type", "hours_worked"]}),
         ('Date Information', { 'fields' : ["activity_date"]})
     ]
-    list_display = ["activity_type","author", "activity_date"]
+    list_display = ["activity_type","author", "activity_date", "hours_worked", "get_parent_category"]
     list_filter = ["author", "activity_date"]
 
 class CategoryAdmin(admin.ModelAdmin):

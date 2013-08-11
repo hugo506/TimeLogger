@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from activities.forms import ActivityForm, ReportsDateForm
 import datetime
+from collections import defaultdict
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
@@ -47,12 +48,62 @@ def reports(request):
     context = { 'form' : form }
     if start_date and end_date and (start_date < end_date):
         show_data = True
+
         results = {}
+
+        # author - boolean representing onsite_team
+        author_onsite_team = {obj.author: obj.onsite_team for obj in AuthorInfo.objects.all()}
+
+        # start and end date
         results['start_date'] = start_date
         results['end_date'] = end_date
-        results['objects'] = Activity.objects.filter(activity_date__gte=start_date)\
-                                 .filter(activity_date__lte=end_date)
+
+        # the list of activities for that date
+        activities = Activity.objects.filter(activity_date__gte=start_date)\
+                                     .filter(activity_date__lte=end_date)
+
+        combined_work = defaultdict(int)
+        combined_work_onsite = defaultdict(int)
+        combined_work_offshore = defaultdict(int)
+        support_activities = list()
+        bau_activities = list()
+        project_activities = list()
+        bugs_activities = list()
+
+        for activity in activities:
+            parent = activity.activity_type.parent_category # cache this
+
+            # for graphs
+            combined_work[parent] += int(round(activity.hours_worked))
+            if author_onsite_team[activity.author]:
+                combined_work_onsite[parent] += int(round(activity.hours_worked))
+            else:
+                combined_work_offshore[parent] += int(round(activity.hours_worked))
+
+            # for tables
+            if parent == "Support":
+                support_activities.append(activity)
+            elif parent == "BAU":
+                bau_activities.append(activity)
+            elif parent == "Project":
+                project_activities.append(activity)
+            else:
+                bugs_activities.append(activity)
+
+
+        # graphs
+        results['combined_work']  = dict(combined_work)
+        results['combined_work_onsite']  = dict(combined_work_onsite)
+        results['combined_work_offshore']  = dict(combined_work_offshore)
+
+        # tables
+        results["support_activities"] = support_activities
+        results["bau_activities"] = bau_activities
+        results["project_activities"] = project_activities
+        results["bugs_activities"] = bugs_activities
+
         context = { 'form' : form, 'show_data' : show_data, 'results': results }
+
     return render(request, "activities/reporting.html", context)
 
 

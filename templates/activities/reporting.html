@@ -9,6 +9,7 @@
         <hr />
         <form action="{% url 'reports' %}" method="GET">
             <fieldset>
+                <!-- TODO: make this into a template -->
             {% if form.errors %}
             <div class="bs-callout bs-callout-danger">
                 <h4>Oops! There were errors in your form submission</h4>
@@ -38,27 +39,91 @@
             <h3>Results</h3>
             <p>Showing data from {{ results.start_date }} - {{ results.end_date }}</p>
             <hr />
-        </div>
-        <div class="row">
-            <div class="col-lg-3">
-                <ul>
-                    {% for obj in results.objects %}
-                    <li> {{ obj.description }} - {{ obj.activity_type }}</li>
-                    {% endfor %}
-                </ul>
+            <div class="row">
+                <div class="col-lg-6">
+                    {% pie_chart results.combined_work with library={"title": "Combined Work"} %}
+                </div>
+                <div class="col-lg-6">
+                    {% pie_chart results.combined_work_onsite with library={"title": "Combined Work (Onsite)"} %}
+                </div>
             </div>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3"></div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    {% pie_chart results.combined_work_offshore with library={"title": "Combined Work (Offshore)"} %}
+                </div>
+                <div class="col-lg-6">
+                    <h4>Support Activities (summary)</h4>
+                    <hr />
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Activity Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in results.support_activities %}
+                            <tr>
+                                <td>{{ item.activity_type.category_name }}</td>
+                                <td>{{ item.description }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4>BAU Activities (summary)</h4>
+                    <hr />
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Activity Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in results.bau_activities %}
+                            <tr>
+                                <td>{{ item.activity_type.category_name }}</td>
+                                <td>{{ item.description }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-lg-6">
+                    <h4>Bugs Activities (summary)</h4>
+                    <hr />
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Activity Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in results.bugs_activities %}
+                            <tr>
+                                <td>{{ item.activity_type.category_name }}</td>
+                                <td>{{ item.description }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
         </div>
     {% endif %}
     
 </div>
 
-<div class="row">
-    <div class="col-lg-4">
-    </div>
-    <div class="col-lg-8"></div>
-</div>
 {% endblock %}
 
 {% block custom_js %}

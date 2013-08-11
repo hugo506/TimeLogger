@@ -38,6 +38,12 @@ class Activity(models.Model):
     def __unicode__(self):
         return self.description
 
+    def get_parent_category(self):
+        return self.activity_type.parent_category
+
+    get_parent_category.allow_tags = True
+    get_parent_category.short_description = 'Parent Category'
+
     class Meta:
         ordering = ["-activity_date"]
         verbose_name_plural = "Activities"
