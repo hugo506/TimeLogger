@@ -2,8 +2,8 @@ from fabric.api import *
 from contextlib import contextmanager as _contextmanager
 
 env.user = "captain"
-env.activate = "source /home/captain/django_apps/django_env/bin/activate"
-env.directory = "/home/captain/django_apps/TimeLogger"
+env.activate = "source /home/captain/Code/django_apps/django_env/bin/activate"
+env.directory = "/home/captain/Code/django_apps/TimeLogger"
 
 def prepare_deploy():
     local("echo ------------------------")
