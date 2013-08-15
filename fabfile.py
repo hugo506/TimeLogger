@@ -1,6 +1,9 @@
 from fabric.api import *
+from contextlib import contextmanager as _contextmanager
 
 env.user = "captain"
+env.activate = "source /home/captain/django_apps/django_env/bin/activate"
+env.directory = "/home/captain/django_apps/TimeLogger"
 
 def prepare_deploy():
     local("echo ------------------------")
@@ -15,27 +18,22 @@ def commit(msg):
 
 def deploy():
     prepare_deploy()
-    code_dir = "/home/captain/Code/django_apps/TimeLogger"
-    with cd(code_dir):
+    with cd(env.directory):
         run("git pull")
 
 def restart_service():
     run("sudo supervisorctl restart django_app")
 
-def send_code():
-    code_dir = "/home/captain/Code/django_apps/TimeLogger"
-    with cd(code_dir):
-        run("git pull")
+@_contextmanager
+def virtualenv():
+    with cd(env.directory):
+        with prefix(env.activate):
+            yield
 
 def sync_data():
     local("python manage.py dumpdata > datadump.json")
     prepare_deploy()
-    code_dir = "/home/captain/Code/django_apps/TimeLogger"
-    venv_dir = "/home/captain/Code/django_apps/django_env"
-    with cd(venv_dir):
-        run("source bin/activate")
-    with cd(code_dir):
+    with virtualenv():
         run("git pull")
         run("python manage.py loaddata dumpdata.json")
-        run("deactivate")
     restart_service()
