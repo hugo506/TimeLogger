@@ -26,8 +26,8 @@ def restart_service():
 
 @_contextmanager
 def virtualenv():
-    with cd(env.directory):
-        with prefix(env.activate):
+    with prefix(env.activate):
+        with cd(env.directory):
             yield
 
 def sync_data():
