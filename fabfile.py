@@ -1,4 +1,6 @@
-from fabric.api import local
+from fabric.api import *
+
+env.user = "captain"
 
 def prepare_deploy():
     local("echo ------------------------")
