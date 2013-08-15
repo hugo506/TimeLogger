@@ -26,3 +26,12 @@ def send_code():
     code_dir = "/home/captain/Code/django_apps/TimeLogger"
     with cd(code_dir):
         run("git pull")
+
+def sync_data():
+    local("python manage.py dumpdata > datadump.json")
+    prepare_deploy()
+    code_dir = "/home/captain/Code/django_apps/TimeLogger"
+    with cd(code_dir):
+        run("git pull")
+        run("python manage.py loaddata dumpdata.json")
+    restart_service()
