@@ -31,7 +31,11 @@ def sync_data():
     local("python manage.py dumpdata > datadump.json")
     prepare_deploy()
     code_dir = "/home/captain/Code/django_apps/TimeLogger"
+    venv_dir = "/home/captain/Code/django_apps/django_env"
+    with cd(venv_dir):
+        run("source bin/activate")
     with cd(code_dir):
         run("git pull")
         run("python manage.py loaddata dumpdata.json")
+        run("deactivate")
     restart_service()
