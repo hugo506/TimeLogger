@@ -22,4 +22,7 @@ def deploy():
 def restart_service():
     run("sudo supervisorctl restart django_app")
 
-
+def send_code():
+    code_dir = "/home/captain/Code/django_apps/TimeLogger"
+    with cd(code_dir):
+        run("git pull")
