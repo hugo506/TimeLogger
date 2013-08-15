@@ -15,7 +15,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'timesheet.db',
+        'NAME': os.path.join(BASE_DIR, 'timesheet.db'),
     }
 }
 
@@ -63,7 +63,7 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
