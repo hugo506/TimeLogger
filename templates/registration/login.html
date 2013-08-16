@@ -2,7 +2,7 @@
 {% block content %}
 <form method="post" action="{% url 'django.contrib.auth.views.login' %}" class="form-signin">
 
-    {% if form.errors %} <div class="alert alert-danger">Your username and password didn’t match. Please try again.</div> {% endif %}
+    {% if form.errors %} <div class="alert alert-info">Your username and password didn’t match. Please try again.</div> {% endif %}
 
     <h2 class="form-signin-heading"><img src="{{ STATIC_URL }}img/logo.png" alt="logo" width="40px"/>TimeLogger!</h2>
     <hr />

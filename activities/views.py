@@ -7,13 +7,21 @@ from django.contrib.auth import logout
 from activities.forms import ActivityForm, ReportsDateForm
 import datetime
 from collections import defaultdict
+from django.utils import timezone
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
 
 @login_required
 def index(request):
-    results = Activity.objects.filter(author__username=request.user.username)
+    # list of activities posted by this user
+    results = {}
+    today = timezone.now()
+    results['all'] = Activity.objects.filter(author__username=request.user.username)
+    results['today'] = [item for item in results['all'] if item.activity_date == today.date()]
+    results['last_seven_days'] = [item for item in results['all'] \
+                                      if (item.activity_date + datetime.timedelta(days=7) > today.date() \
+                                          and item.activity_date != today.date())]
     if request.method == "POST":
         form = ActivityForm(request.POST)
         if form.is_valid():
@@ -29,9 +37,10 @@ def index(request):
         form = ActivityForm()
     context = { 'name' : request.user.username,
                 'results' : results,
-                'form' : form }
+                'form' : form ,
+                'today': today.date()}
 
-    return render(request, "activities/index.html", context)
+    return render(request, "activities/dashboard.html", context)
 
 @login_required
 def reports(request):
