@@ -1,0 +1,42 @@
+{% extends "activities/base.html" %}
+
+{% block content %}
+<div class="row">
+
+    <!-- PAGINATION SECTION -->
+    {% if activities.has_previous %}
+        <a href="?page={{activities.previous_page_number}}">&laquo; Prev</a>
+    {% endif %}
+
+    Page {{ activities.number }} of {{ activities.paginator.num_pages }}
+
+    {% if activities.has_next %}
+        <a href="?page={{activities.next_page_number}}">Next &raquo;</a>
+    {% endif %}
+
+    <h4>All Entries</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Activity Type</th>
+                <th>Ticket Number</th>
+                <th>Hours Worked</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in activities %}
+            <tr>
+                <td>{{ item.activity_type.category_name }}</td>
+                <td>{{ item.ticket_number }} </td>
+                <td>{{ item.hours_worked }} </td>
+                <td>{{ item.description }} </td>
+                <td>{{ item.activity_date }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

@@ -15,4 +15,6 @@ urlpatterns = patterns('',
 
     url(r'^reports/$', views.reports, name="reports"),
 
+    url(r'^all/$', views.all_activities, name="all_activities"),
+
     url(r'^admin/', include(admin.site.urls)))

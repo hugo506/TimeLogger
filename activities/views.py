@@ -8,6 +8,7 @@ from activities.forms import ActivityForm, ReportsDateForm
 import datetime
 from collections import defaultdict
 from django.utils import timezone
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
@@ -41,6 +42,21 @@ def index(request):
                 'today': today.date()}
 
     return render(request, "activities/dashboard.html", context)
+
+
+@login_required
+def all_activities(request):
+    results = Activity.objects.filter(author__username=request.user.username)
+    paginator = Paginator(results, 8)
+    page = request.GET.get('page')
+    try :
+        activities = paginator.page(page)
+    except PageNotAnInteger:
+        activities = paginator.page(1)
+    except EmptyPage:
+        activities = paginator.page(paginator.num_pages)
+    return render(request, "activities/all.html", {'activities' : activities})
+
 
 @login_required
 def reports(request):
