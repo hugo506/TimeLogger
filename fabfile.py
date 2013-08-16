@@ -4,6 +4,7 @@ from contextlib import contextmanager as _contextmanager
 env.user = "captain"
 env.activate = "source /home/captain/Code/django_apps/django_env/bin/activate"
 env.directory = "/home/captain/Code/django_apps/TimeLogger"
+env.hosts = ["192.241.186.225"]
 
 def prepare_deploy():
     local("echo ------------------------")
@@ -20,9 +21,14 @@ def deploy():
     prepare_deploy()
     with cd(env.directory):
         run("git pull")
+    restart_service()
 
 def restart_service():
     run("sudo supervisorctl restart django_app")
+
+def update_code():
+    with cd(env.directory):
+        run("git pull")
 
 @_contextmanager
 def virtualenv():
