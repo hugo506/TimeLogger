@@ -66,13 +66,19 @@ def reports(request):
     form = ReportsDateForm()
     start_date_unclean = request.GET.get("start_date", False)
     end_date_unclean = request.GET.get("end_date", False)
+    today = timezone.now().date()
 
     if not start_date_unclean or not end_date_unclean:
-        return render(request, "activities/reporting.html", {'form' : form })
+        # when no dates... show data for the past one week
+        start_date = today - datetime.timedelta(days=7)
+        end_date = today
+    else:
+        # else read the dates from the url
+        start_date = datetime.datetime.strptime(start_date_unclean, "%m/%d/%Y")
+        end_date = datetime.datetime.strptime(end_date_unclean, "%m/%d/%Y")
 
-    start_date = datetime.datetime.strptime(start_date_unclean, "%m/%d/%Y")
-    end_date = datetime.datetime.strptime(end_date_unclean, "%m/%d/%Y")
     context = { 'form' : form }
+
     if start_date and end_date and (start_date < end_date):
         show_data = True
 
@@ -132,7 +138,6 @@ def reports(request):
         context = { 'form' : form, 'show_data' : show_data, 'results': results }
 
     return render(request, "activities/reporting.html", context)
-
 
 def logout_view(request):
     logout(request)
