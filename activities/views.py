@@ -9,6 +9,7 @@ import datetime
 from collections import defaultdict
 from django.utils import timezone
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib import messages
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
@@ -22,7 +23,7 @@ def index(request):
     results['today'] = [item for item in results['all'] if item.activity_date == today.date()]
     results['last_seven_days'] = [item for item in results['all'] \
                                       if (item.activity_date + datetime.timedelta(days=7) > today.date() \
-                                          and item.activity_date != today.date())]
+                                          and item.activity_date < today.date())]
     if request.method == "POST":
         form = ActivityForm(request.POST)
         if form.is_valid():
@@ -33,6 +34,7 @@ def index(request):
                                 ticket_number=form.cleaned_data["ticket_number"],
                                 hours_worked=form.cleaned_data["hours_worked"])
             activity.save()
+            messages.add_message(request, messages.SUCCESS, "Activity added successfully!")
             return redirect(reverse('index'))
     else:
         form = ActivityForm()

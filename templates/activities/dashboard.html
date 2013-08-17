@@ -2,7 +2,6 @@
 
 {% block content %}
 <div class="row">
-
 <div class="col-lg-3">
     <div class="panel">
         <div class="panel-body">
@@ -54,6 +53,17 @@
 </div>
 
 <div class="col-lg-9">
+
+    {% if messages %}
+    <!-- FLASH MESSAGES -->
+        {% for message in messages %}
+            <div class="alert alert-{{message.tags}} alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>{{ message.tags|title }}</strong> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
     <!-- DASHBOARD DISPLAY -->
     <h4>Your Recent Entries</h4>
     <hr />
@@ -76,7 +86,7 @@
                         <td>{{ item.activity_type.category_name }}</td>
                         <td>{{ item.ticket_number }} </td>
                         <td>{{ item.hours_worked }} </td>
-                        <td>{{ item.description }} </td>
+                        <td>{{ item.description|truncatewords:8 }} </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -103,7 +113,7 @@
                         <td>{{ item.activity_type.category_name }}</td>
                         <td>{{ item.ticket_number }} </td>
                         <td>{{ item.hours_worked }} </td>
-                        <td>{{ item.description }} </td>
+                        <td>{{ item.description|truncatewords:8 }} </td>
                         <td>{{ item.activity_date|timesince:today }} ago </td>
                     </tr>
                     {% endfor %}
