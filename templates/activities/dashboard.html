@@ -7,7 +7,7 @@
         <div class="panel-body">
             <!-- THE SIDEPANE -->
             <h4 class="panel-heading">Add a new activity!</h4>
-            <form action="{% url 'index' %}" method="post"> {% csrf_token %}
+            <form id="new_activity_form" action="{% url 'index' %}" method="post"> {% csrf_token %}
                 <fieldset>
                     {% if form.errors %}
                     <div class="bs-callout bs-callout-danger">
@@ -53,7 +53,10 @@
 </div>
 
 <div class="col-lg-9">
-
+    <div class="alert alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>New to Timelogger?</strong> <a href="#" id="begin_tour">Click here</a> to try the product tour
+    </div>
     {% if messages %}
     <!-- FLASH MESSAGES -->
         {% for message in messages %}
@@ -69,7 +72,7 @@
     <hr />
 
     <div class="panel">
-        <div class="panel-heading"> Today </div>
+        <div id="today_activities_table" class="panel-heading"> Today </div>
         <div class="panel-body">
             <table class="table table-striped">
                 <thead>
@@ -95,7 +98,7 @@
     </div>
 
     <div class="panel">
-        <div class="panel-heading">Last 7 days</div>
+        <div id="last_seven_activities_table" class="panel-heading">Last 7 days</div>
         <div class="panel-body">
             <table class="table table-striped">
                 <thead>
@@ -121,7 +124,7 @@
             </table>
         </div>
         <div class="panel-footer">
-            <a href="/all" class="btn btn-default">See all entries &rarr;</a>
+            <a id="more_entries_button" href="/all" class="btn btn-default">See all entries &rarr;</a>
         </div>
     </div>
     
