@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
 from activities.models import Activity
 from activities import views
+from django.contrib.auth.decorators import login_required
 
 from django.contrib import admin
 admin.autodiscover()
@@ -15,6 +16,13 @@ urlpatterns = patterns('',
 
     url(r'^reports/$', views.reports, name="reports"),
 
+    url(r'^activity/edit/(?P<pk>\d+)', login_required(views.ActivityUpdate.as_view()),
+                                       name="activity_edit"),
+
+    url(r'^activity/delete/(?P<pk>\d+)', login_required(views.ActivityDelete.as_view()),
+                                         name="activity_delete"),
+
     url(r'^all/$', views.all_activities, name="all_activities"),
 
-    url(r'^admin/', include(admin.site.urls)))
+    url(r'^admin/', include(admin.site.urls))
+)

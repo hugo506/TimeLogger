@@ -35,6 +35,9 @@ class Activity(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
 
+    def get_absolute_url(self):
+        return reverse('activity-detail', kwargs={ 'pk': self.pk })
+
     def __unicode__(self):
         return self.description
 

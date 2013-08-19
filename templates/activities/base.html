@@ -11,7 +11,6 @@
     <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}css/datepicker.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}css/hopscotch.css" rel="stylesheet">
 
     <!-- CUSTOM JAVASCRIPT BLOCK FOR CHARTKICK -->
     {% block custom_js %} {% endblock %}
@@ -28,6 +27,10 @@
         }
         .sidepane {
             background-color: #e9eaea;
+        }
+        .close:hover {
+            color: #d9534f;
+            opacity: 1;
         }
     </style>
   </head>
@@ -68,16 +71,15 @@
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/hopscotch.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/tour.js"></script>
 
     <script type="text/javascript">
         (function(){
             $('#id_activity_type').addClass("form-control");
             // datepicker initialization
-            $('#id_activity_date').datepicker();
-            $('#id_start_date').datepicker();
-            $('#id_end_date').datepicker();
+            $('#id_activity_date').datepicker({ autoclose: true });
+            $('#id_start_date').datepicker({ autoclose: true });
+            $('#id_end_date').datepicker({ autoclose: true });
+            $('.description').tooltip();
          })();
         
     </script>

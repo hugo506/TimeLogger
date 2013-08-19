@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from activities.models import AuthorInfo, Category, Activity
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -10,9 +10,11 @@ from collections import defaultdict
 from django.utils import timezone
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib import messages
+from django.views.generic.edit import UpdateView, DeleteView
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
+
 
 @login_required
 def index(request):
@@ -45,7 +47,6 @@ def index(request):
 
     return render(request, "activities/dashboard.html", context)
 
-
 @login_required
 def all_activities(request):
     results = Activity.objects.filter(author__username=request.user.username)
@@ -59,6 +60,13 @@ def all_activities(request):
         activities = paginator.page(paginator.num_pages)
     return render(request, "activities/all.html", {'activities' : activities})
 
+class ActivityUpdate(UpdateView):
+    model = Activity
+    success_url = reverse_lazy('index')
+
+class ActivityDelete(DeleteView):
+    model = Activity
+    success_url = reverse_lazy('index')
 
 @login_required
 def reports(request):
