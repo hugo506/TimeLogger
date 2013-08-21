@@ -11,6 +11,10 @@ from django.utils import timezone
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.contrib import messages
 from django.views.generic.edit import UpdateView, DeleteView
+import requests
+import json
+from django.http import HttpResponse
+import config
 
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
@@ -46,6 +50,18 @@ def index(request):
                 'today': today.date()}
 
     return render(request, "activities/dashboard.html", context)
+
+
+@login_required
+def redmine(request):
+    ticket_id = request.GET.get('ticket')
+    r = requests.get("https://tasks.alghanim.com/issues/%s.json" % ticket_id,
+                     auth=(config.REDMINE_USERNAME, config.REDMINE_PASSWORD))
+    response_data = {}
+    response_data['status'] = r.status_code
+    if r.status_code == 200:
+        response_data['ticket'] = r.json()
+    return HttpResponse(json.dumps(response_data), mimetype="application/json")
 
 @login_required
 def all_activities(request):

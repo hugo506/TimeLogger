@@ -24,5 +24,7 @@ urlpatterns = patterns('',
 
     url(r'^all/$', views.all_activities, name="all_activities"),
 
+    url(r'^redmine/$', views.redmine, name="redmine"),
+
     url(r'^admin/', include(admin.site.urls))
 )
