@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from activities.models import AuthorInfo, Category, Activity
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
 from activities.forms import ActivityForm, ReportsDateForm
 import datetime
@@ -84,9 +84,8 @@ class ActivityDelete(DeleteView):
     model = Activity
     success_url = reverse_lazy('index')
 
-@login_required
+@permission_required('request.user.is_staff')
 def reports(request):
-    # check for admin required
     form = ReportsDateForm()
     start_date_unclean = request.GET.get("start_date", False)
     end_date_unclean = request.GET.get("end_date", False)
