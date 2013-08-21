@@ -18,3 +18,5 @@ Special thanks to [Chartkick](http://chartkick.com/) which made it super easy to
 ## Screenshots
 ![Image](https://dl.dropboxusercontent.com/u/9555677/timelogger/login.png)
 ![Image](https://dl.dropboxusercontent.com/u/9555677/timelogger/reporting.png)
+
+## Small change in a file
