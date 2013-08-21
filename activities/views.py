@@ -55,7 +55,7 @@ def index(request):
 @login_required
 def redmine(request):
     ticket_id = request.GET.get('ticket')
-    r = requests.get("https://tasks.alghanim.com/issues/%s.json" % ticket_id,
+    r = requests.get(config.REDMINE_URL + "issues/%s.json" % ticket_id,
                      auth=(config.REDMINE_USERNAME, config.REDMINE_PASSWORD))
     response_data = {}
     response_data['status'] = r.status_code
