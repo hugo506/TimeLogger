@@ -63,6 +63,7 @@ def redmine(request):
         response_data['ticket'] = r.json()
     return HttpResponse(json.dumps(response_data), mimetype="application/json")
 
+
 @login_required
 def all_activities(request):
     results = Activity.objects.filter(author__username=request.user.username)
@@ -83,6 +84,80 @@ class ActivityUpdate(UpdateView):
 class ActivityDelete(DeleteView):
     model = Activity
     success_url = reverse_lazy('index')
+
+
+@login_required
+def my_reports(request):
+    form = ReportsDateForm()
+    start_date_unclean = request.GET.get("start_date", False)
+    end_date_unclean = request.GET.get("end_date", False)
+    today = timezone.now().date()
+
+    if not start_date_unclean or not end_date_unclean:
+        # when no dates... show data for the past one week
+        start_date = today - datetime.timedelta(days=7)
+        end_date = today
+    else:
+        # else read the dates from the url
+        start_date = datetime.datetime.strptime(start_date_unclean, "%m/%d/%Y")
+        end_date = datetime.datetime.strptime(end_date_unclean, "%m/%d/%Y")
+
+    context = { 'form' : form }
+
+    if start_date and end_date and (start_date < end_date):
+        show_data = True
+
+        results = {}
+
+        # start and end date
+        results['start_date'] = start_date
+        results['end_date'] = end_date
+
+        activities = Activity.objects.filter(activity_date__gte=start_date)\
+                                     .filter(activity_date__lte=end_date)\
+                                     .filter(author=request.user)
+
+
+        combined_work = defaultdict(int)
+        support_activities = list()
+        bau_activities = list()
+        project_activities = list()
+        bugs_activities = list()
+        meeting_activities = list()
+
+        for activity in activities:
+            parent = activity.activity_type.parent_category
+
+            combined_work[parent] += int(round(activity.hours_worked))
+
+            # for tables
+            if parent == "Support":
+                support_activities.append(activity)
+            elif parent == "BAU":
+                bau_activities.append(activity)
+            elif parent == "Project":
+                project_activities.append(activity)
+            elif parent == "Bugs":
+                bugs_activities.append(activity)
+            else:
+                meeting_activities.append(activity)
+
+
+        # graphs
+        results['combined_work']  = dict(combined_work)
+
+        # tables
+        results["support_activities"] = support_activities
+        results["bau_activities"] = bau_activities
+        results["project_activities"] = project_activities
+        results["bugs_activities"] = bugs_activities
+        results['meeting_activities'] = meeting_activities
+
+        context = { 'form' : form, 'show_data' : show_data, 'results': results }
+
+    return render(request, "activities/myreports.html", context)
+
+
 
 @permission_required('request.user.is_staff')
 def reports(request):
@@ -158,7 +233,8 @@ def reports(request):
         results["project_activities"] = project_activities
         results["bugs_activities"] = bugs_activities
 
-        context = { 'form' : form, 'show_data' : show_data, 'results': results }
+        context = { 'form' : form, 'show_data' : show_data,
+                    'results': results }
 
     return render(request, "activities/reporting.html", context)
 

@@ -1,6 +1,7 @@
 # Django settings for timesheet project.
 import os
 import chartkick
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -18,6 +19,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'timesheet.db'),
     }
 }
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts

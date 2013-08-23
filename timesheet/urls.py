@@ -16,6 +16,8 @@ urlpatterns = patterns('',
 
     url(r'^reports/$', views.reports, name="reports"),
 
+    url(r'^myreports/$', views.my_reports, name="my_reports"),
+
     url(r'^activity/edit/(?P<pk>\d+)', login_required(views.ActivityUpdate.as_view()),
                                        name="activity_edit"),
 

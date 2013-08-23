@@ -1,0 +1,168 @@
+{% extends "activities/base.html" %}
+{% load chartkick %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-3 sidenav">
+        <h3>Dates</h3>
+        <p class="small">Enter dates to get started</p>
+        <hr />
+        <form action="{% url 'reports' %}" method="GET">
+            <fieldset>
+                <!-- TODO: make this into a template -->
+            {% if form.errors %}
+            <div class="bs-callout bs-callout-danger">
+                <h4>Oops! There were errors in your form submission</h4>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field }} - {{ error }} </li>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+                <div class="form-group">
+                    <label for="id_start_date"><span class="glyphicon glyphicon-calendar"></span>   Start Date</label>    
+                    <input class="form-control" id="id_start_date" name="start_date" type="text" value="{{ results.start_date|date:'SHORT_DATE_FORMAT' }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="id_end_date"><span class="glyphicon glyphicon-calendar"></span>   End Date</label>    
+                    <input class="form-control" id="id_end_date" name="end_date" type="text" value="{{ results.end_date|date:'SHORT_DATE_FORMAT' }}"/>
+                </div>
+                <input type="submit" value="Generate Reports!" class="btn btn-primary btn-lg btn-block"/>
+            </fieldset>   
+        </form>
+    </div>
+
+
+    {% if show_data %}
+        <div class="col-lg-9">
+            <h3>Results</h3>
+            <p>Showing data from {{ results.start_date|date:"d M Y" }} - {{ results.end_date|date:"d M Y" }}</p>
+            <hr />
+            <div class="row">
+                <div class="col-lg-6">
+                    {% pie_chart results.combined_work with library={"title": "Combined Work"} %}
+                </div>
+                <div class="col-lg-6">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Activity Type</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, value in results.combined_work.items %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4>Support Activities (summary)</h4>
+                    <hr />
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Activity Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in results.support_activities %}
+                            <tr>
+                                <td>{{ item.activity_type.category_name }}</td>
+                                <td>{{ item.description|truncatewords:8 }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <h4>BAU Activities (summary)</h4>
+                    <hr />
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Activity Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in results.bau_activities %}
+                            <tr>
+                                <td>{{ item.activity_type.category_name }}</td>
+                                <td>{{ item.description|truncatewords:8 }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <h4>Bugs Activities (summary)</h4>
+                    <hr />
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Activity Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in results.bugs_activities %}
+                            <tr>
+                                <td>{{ item.activity_type.category_name }}</td>
+                                <td>{{ item.description|truncatewords:8 }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-lg-6">
+                    <h4>Meeting Activities (summary)</h4>
+                    <hr />
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Activity Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in results.meeting_activities %}
+                            <tr>
+                                <td>{{ item.activity_type.category_name }}</td>
+                                <td>{{ item.description|truncatewords:8 }} </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    {% endif %}
+    
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ STATIC_URL }}js/jsapi.js"></script>
+    <script src="{{ STATIC_URL }}chartkick.js"></script>
+{% endblock %}
