@@ -218,9 +218,10 @@ def reports(request):
                 bau_activities.append(activity)
             elif parent == "Project":
                 project_activities.append(activity)
-            else:
+            elif parent == "Bugs":
                 bugs_activities.append(activity)
-
+            else:
+                pass
 
         # graphs
         results['combined_work']  = dict(combined_work)
@@ -233,8 +234,7 @@ def reports(request):
         results["project_activities"] = project_activities
         results["bugs_activities"] = bugs_activities
 
-        context = { 'form' : form, 'show_data' : show_data,
-                    'results': results }
+        context = { 'form' : form, 'show_data' : show_data, 'results': results }
 
     return render(request, "activities/reporting.html", context)
 
