@@ -29,7 +29,7 @@ urlpatterns = patterns('',
 
     url(r'^redmine/$', views.redmine, name="redmine"),
 
-    url(r'^leaves/$', leaves_views.index, name="leaves_index"),
+    url(r'^leaves/$', leaves_views.index, name="leaves"),
 
     url(r'^admin/', include(admin.site.urls))
 )

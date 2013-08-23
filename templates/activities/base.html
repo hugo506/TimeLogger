@@ -57,6 +57,7 @@
             <li><a href="/all">All Entries</a></li>
             <li><a href="{% url 'my_reports' %}">View Reports</a></li>
             {% endif %}
+            <li><a href="{% url 'leaves' %}">Manage Leaves</a></li>
           </ul>
           <ul class="nav navbar-nav pull-right">
               <li><a href="#">Logged in as {{ user.username }}</a></li>

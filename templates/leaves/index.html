@@ -1,0 +1,91 @@
+{% extends "activities/base.html" %}
+
+{% block content %}
+<div class="row">
+<div class="col-lg-3">
+    <div class="panel">
+        <div class="panel-body">
+            <!-- THE SIDEPANE -->
+            <h4 class="panel-heading">Add a new leave!</h4>
+            <form id="new_leave_form" action="{% url 'leaves' %}" method="post"> {% csrf_token %}
+                <fieldset>
+                    {% if form.errors %}
+                    <div class="bs-callout bs-callout-danger">
+                        <h4>Oops! There were errors in your form submission</h4>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }} - {{ error }} </li>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label for="id_end_date">From</label>
+                        <input class="form-control" id="id_start_date" name="start_date" type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_end_date">To</label>
+                        <input class="form-control" id="id_end_date" name="end_date" type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_description">Description</label>
+                        <textarea cols="40" id="id_description" name="description" rows="3" class="form-control"></textarea>
+                    </div>
+
+                    <input type="submit" value="Add Leave!" class="btn btn-default btn-lg btn-block"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-9">
+    <!-- >
+    <div class="alert alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>New to Timelogger?</strong> <a href="#" id="begin_tour">Click here</a> to try the product tour
+    </div>
+    -->
+    {% if messages %}
+    <!-- FLASH MESSAGES -->
+        {% for message in messages %}
+            <div class="alert alert-{{message.tags}} alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>{{ message.tags|title }}</strong> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- DASHBOARD DISPLAY -->
+    <h4>Leaves</h4>
+    <hr />
+        {% if leaves %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in leaves %}
+                <tr>
+                    <td>{{ item.start_date}}</td>
+                    <td>{{ item.start_date}}</td>
+                    <td><a href="#" class="description" data-toggle="tooltip" title="{{ item.description }}">
+                            {{ item.description|truncatewords:8 }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <h4>You haven't logged any leaves till now! </h4>
+        {% endif %}
+</div>
+</div>
+{% endblock %}
