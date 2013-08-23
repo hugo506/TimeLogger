@@ -19,7 +19,6 @@ import config
 settings.LOGIN_REDIRECT_URL = "/"
 settings.LOGIN_URL = "/login"
 
-
 @login_required
 def index(request):
     # list of activities posted by this user

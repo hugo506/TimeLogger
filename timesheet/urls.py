@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import DetailView
 from activities.models import Activity
 from activities import views
+from leaves import views as leaves_views
 from django.contrib.auth.decorators import login_required
 
 from django.contrib import admin
