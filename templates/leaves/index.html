@@ -43,12 +43,6 @@
 </div>
 
 <div class="col-lg-9">
-    <!-- >
-    <div class="alert alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>New to Timelogger?</strong> <a href="#" id="begin_tour">Click here</a> to try the product tour
-    </div>
-    -->
     {% if messages %}
     <!-- FLASH MESSAGES -->
         {% for message in messages %}
@@ -69,7 +63,7 @@
     {% if leaves.has_next %}
         <a href="?page={{leaves.next_page_number}}">Next &raquo;</a>
     {% endif %}
-    <!-- END PAGINATOR SECTION -->
+    <!-- END OF PAGINATION SECTION -->
 
     <!-- DASHBOARD DISPLAY -->
     <h4>Leaves</h4>
@@ -80,6 +74,7 @@
                 <tr>
                     <th>Start Date</th>
                     <th>End Date</th>
+                    <th>Days of leave</th>
                     <th>Description</th>
                 </tr>
             </thead>
@@ -87,7 +82,8 @@
                 {% for item in leaves %}
                 <tr>
                     <td>{{ item.start_date}}</td>
-                    <td>{{ item.start_date}}</td>
+                    <td>{{ item.end_date}}</td>
+                    <td>{{ item.start_date|timesince:item.end_date}}</td>
                     <td><a href="#" class="description" data-toggle="tooltip" title="{{ item.description }}">
                             {{ item.description|truncatewords:8 }}</a>
                     </td>

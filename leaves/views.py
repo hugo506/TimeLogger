@@ -17,13 +17,13 @@ def index(request):
                          end_date = form.cleaned_data['end_date'])
             leave.save()
             messages.add_message(request, messages.SUCCESS, "Leave added successfully")
-        else:
-            form = LeaveForm()
+    else:
+        form = LeaveForm()
     try:
         leaves = paginator.page(page)
     except PageNotAnInteger:
         leaves = paginator.page(1)
     except EmptyPage:
         leaves = paginator.page(paginator.num_pages)
-    context = { 'leaves' : leaves }
+    context = { 'leaves' : leaves, 'form' : form }
     return render(request, "leaves/index.html", context)

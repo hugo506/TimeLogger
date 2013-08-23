@@ -16,5 +16,5 @@ class ReportsDateForm(forms.Form):
         end_date = cleaned_data.get("end_date")
 
         if start_date > end_date:
-            raise forms.ValidationError("Start date has to be earlier than end date!")
+            raise forms.ValidationError("End date cannot be earlier than start date")
 
