@@ -59,6 +59,18 @@
         {% endfor %}
     {% endif %}
     
+    <!-- PAGINATION SECTION -->
+    {% if leaves.has_previous %}
+        <a href="?page={{leaves.previous_page_number}}">&laquo; Prev</a>
+    {% endif %}
+
+    Page {{ leaves.number }} of {{ leaves.paginator.num_pages }}
+
+    {% if leaves.has_next %}
+        <a href="?page={{leaves.next_page_number}}">Next &raquo;</a>
+    {% endif %}
+    <!-- END PAGINATOR SECTION -->
+
     <!-- DASHBOARD DISPLAY -->
     <h4>Leaves</h4>
     <hr />
