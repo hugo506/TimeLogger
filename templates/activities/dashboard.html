@@ -22,7 +22,7 @@
 
                     <div class="form-group">
                         <label for="id_activity_date">Activity Date</label>
-                        <input class="form-control" id="id_activity_date" name="activity_date" type="text" />
+                        {{ form.activity_date }}
                     </div>
 
                     <div class="form-group">
@@ -32,17 +32,17 @@
 
                     <div class="form-group">
                         <label for="id_ticket_number">Ticket Number</label>
-                        <input class="form-control" id="id_ticket_number" placeholder="redmine ticket number" name="ticket_number" type="text" />
+                        {{ form.ticket_number }}
                     </div>
 
                     <div class="form-group">
                         <label for="id_description">Description</label>
-                        <textarea cols="40" id="id_description" placeholder="Auto-populated from redmine!" name="description" rows="3" class="form-control"></textarea>
+                        {{ form.description }}
                     </div>
 
                     <div class="form-group">
                         <label for="id_hours_worked">Hours Worked</label>
-                        <input id="id_hours_worked" class="form-control" name="hours_worked" type="text" value="0" />
+                        {{ form.hours_worked }}
                     </div>
 
                     <input type="submit" value="Add Activity!" class="btn btn-default btn-lg btn-block"/>
