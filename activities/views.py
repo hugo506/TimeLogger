@@ -53,14 +53,19 @@ def index(request):
 
 @login_required
 def redmine(request):
-    ticket_id = request.GET.get('ticket')
-    r = requests.get(config.REDMINE_URL + "issues/%s.json" % ticket_id,
-                     auth=(config.REDMINE_USERNAME, config.REDMINE_PASSWORD))
     response_data = {}
-    response_data['status'] = r.status_code
-    if r.status_code == 200:
-        response_data['ticket'] = r.json()
-    return HttpResponse(json.dumps(response_data), mimetype="application/json")
+    if config.ENABLE_REDMINE:
+        ticket_id = request.GET.get('ticket')
+        r = requests.get(config.REDMINE_URL + "issues/%s.json" % ticket_id,
+                         auth=(config.REDMINE_USERNAME, config.REDMINE_PASSWORD))
+        response_data['status'] = r.status_code
+        if r.status_code == 200:
+            response_data['ticket'] = r.json()
+        return HttpResponse(json.dumps(response_data), mimetype="application/json")
+    else:
+        # when redmine integration is disabled
+        response_data['status'] = 404
+        return HttpResponse(json.dumps(response_data), mimetype="application/json")
 
 
 @login_required

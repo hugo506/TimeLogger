@@ -7,6 +7,7 @@ import config
 DEBUG = config.DEBUG
 TEMPLATE_DEBUG = DEBUG
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ENABLE_REDMINE = config.ENABLE_REDMINE
 
 ADMINS = (
     ('Prakhar Srivastav', 'prakhars@alghanim.com'),
