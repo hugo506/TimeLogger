@@ -1,0 +1,57 @@
+{% extends "activities/base.html" %}
+
+{% block content %}
+<div class="row">
+<div class="col-lg-3">
+    <div class="panel">
+        <div class="panel-body">
+            <!-- THE SIDEPANE -->
+            <h4 class="panel-heading">Add a new activity!</h4>
+            <form action="" method="post"> {% csrf_token %}
+                <fieldset>
+                    {% if form.errors %}
+                    <div class="bs-callout bs-callout-danger">
+                        <h4>Oops! There were errors in your form submission</h4>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }} - {{ error }} </li>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label for="id_activity_date">Activity Date</label>
+                        {{ form.activity_date }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_activity_type">Activity Type</label>
+                        {{ form.activity_type }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_ticket_number">Ticket Number</label>
+                        {{ form.ticket_number }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_description">Description</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_hours_worked">Hours Worked</label>
+                        {{ form.hours_worked }}
+                    </div>
+
+                    <input type="submit" value="Edit Activity!" class="btn btn-default btn-lg btn-block"/>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock %}

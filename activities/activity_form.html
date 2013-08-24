@@ -92,7 +92,7 @@
                             <td>{{ item.activity_type.category_name }}</td>
                             <td>{{ item.ticket_number }} </td>
                             <td>{{ item.hours_worked }} </td>
-                            <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" title="{{ item.description }}">
+                            <td><a href="#" class="description" data-toggle="tooltip" title="{{ item.description }}">
                                     {{ item.description|truncatewords:8 }}</a>
                                 <a href="{% url 'activity_delete' item.id %}">
                                     <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -128,7 +128,7 @@
                         <td>{{ item.activity_type.category_name }}</td>
                         <td>{{ item.ticket_number }} </td>
                         <td>{{ item.hours_worked }} </td>
-                        <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" title=" {{ item.description }} ">{{ item.description|truncatewords:8 }}</a> </td>
+                        <td><a href="#" class="description" data-toggle="tooltip" title=" {{ item.description }} ">{{ item.description|truncatewords:8 }}</a> </td>
                         <td>{{ item.activity_date|timesince:today }} ago 
                             <a href="{% url 'activity_delete' item.id %}" title="Delete activity?">
                                 <button type="button" class="close" aria-hidden="true">&times;</button>

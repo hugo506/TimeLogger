@@ -13,7 +13,7 @@ from django.contrib import messages
 from django.views.generic.edit import UpdateView, DeleteView
 import requests
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 import config
 
 settings.LOGIN_REDIRECT_URL = "/"
@@ -79,10 +79,26 @@ def all_activities(request):
 class ActivityUpdate(UpdateView):
     model = Activity
     success_url = reverse_lazy('index')
+    template_name_suffix = '_update_form'
+    form_class = ActivityForm
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user """
+        obj = super(ActivityUpdate, self).get_object()
+        if not obj.author == self.request.user:
+            raise Http404
+        return obj
 
 class ActivityDelete(DeleteView):
     model = Activity
     success_url = reverse_lazy('index')
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user """
+        obj = super(ActivityDelete, self).get_object()
+        if not obj.author == self.request.user:
+            raise Http404
+        return obj
 
 
 @login_required

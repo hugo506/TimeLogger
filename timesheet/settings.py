@@ -2,8 +2,9 @@
 import os
 import chartkick
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+import config
 
-DEBUG = True
+DEBUG = config.DEBUG
 TEMPLATE_DEBUG = DEBUG
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -19,7 +20,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'timesheet.db'),
     }
 }
-
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts

@@ -2,6 +2,15 @@ from django import forms
 from activities.models import Activity
 
 class ActivityForm(forms.ModelForm):
+    description = forms.CharField(widget=forms.widgets.Textarea(attrs={
+                                            'class':'form-control', 'cols':40, 'rows': 3,
+                                            'placeholder' : 'Autopopulated from redmine'}))
+    activity_date = forms.CharField(widget=forms.widgets.TextInput(attrs={
+                                            'class': 'form-control' }))
+    ticket_number = forms.CharField(widget=forms.widgets.TextInput(attrs={
+                                            'class': 'form-control' }))
+    hours_worked = forms.CharField(widget=forms.widgets.TextInput(attrs={
+                                            'class': 'form-control' }))
     class Meta:
         model = Activity
         exclude = ('author', )
