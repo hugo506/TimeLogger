@@ -63,7 +63,6 @@ def redmine(request):
             response_data['ticket'] = r.json()
         return HttpResponse(json.dumps(response_data), mimetype="application/json")
     else:
-        # when redmine integration is disabled
         response_data['status'] = 404
         return HttpResponse(json.dumps(response_data), mimetype="application/json")
 
