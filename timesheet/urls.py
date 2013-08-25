@@ -25,7 +25,9 @@ urlpatterns = patterns('',
     url(r'^activity/delete/(?P<pk>\d+)', login_required(views.ActivityDelete.as_view()),
                                          name="activity_delete"),
 
-    url(r'^all/$', views.all_activities, name="all_activities"),
+    #url(r'^all/$', views.all_activities, name="all_activities"),
+
+    url(r'^all/activity/(?P<activity>\d+)/$', views.all_activities, name="all_activities"),
 
     url(r'^redmine/$', views.redmine, name="redmine"),
 

@@ -3,41 +3,67 @@
 {% block content %}
 <div class="row">
 
-    <!-- PAGINATION SECTION -->
-    {% if activities.has_previous %}
-        <a href="?page={{activities.previous_page_number}}">&laquo; Prev</a>
+<div class="col-lg-3">
+
+    <h4>Filter by activity type</h4>
+    <div class="list-group">
+        <a href="{% url 'all_activities' 0 %}" class="{% ifequal active_category 0 %} active {% endifequal %} list-group-item">View All Activities</a>
+        {% for category in categories %}
+        <a href="{% url 'all_activities' category.id %}" class="list-group-item {% ifequal category.id active_category %} active {% endifequal %}">
+            {{ category.category_name }}
+        </a>
+        {% endfor %}
+    </div>
+
+</div>
+
+<div class="col-lg-9">
+
+    {% if activities %}
+
+        <!-- PAGINATION SECTION -->
+        {% if activities.has_previous %}
+            <a href="?page={{activities.previous_page_number}}">&laquo; Prev</a>
+        {% endif %}
+
+        Page {{ activities.number }} of {{ activities.paginator.num_pages }}
+
+        {% if activities.has_next %}
+            <a href="?page={{activities.next_page_number}}">Next &raquo;</a>
+        {% endif %}
+        <!-- END PAGINATOR SECTION -->
+
+        <h4>All Entries</h4>
+        <hr />
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Activity Type</th>
+                    <th>Ticket Number</th>
+                    <th>Hours Worked</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in activities %}
+                <tr>
+                    <td>{{ item.activity_type.category_name }}</td>
+                    <td>{{ item.ticket_number }} </td>
+                    <td>{{ item.hours_worked }} </td>
+                    <td>{{ item.description }} </td>
+                    <td>{{ item.activity_date }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+
+        <h3>There are no activities logged in this category yet!</h3>
+
     {% endif %}
-
-    Page {{ activities.number }} of {{ activities.paginator.num_pages }}
-
-    {% if activities.has_next %}
-        <a href="?page={{activities.next_page_number}}">Next &raquo;</a>
-    {% endif %}
-    <!-- END PAGINATOR SECTION -->
-
-    <h4>All Entries</h4>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Activity Type</th>
-                <th>Ticket Number</th>
-                <th>Hours Worked</th>
-                <th>Description</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in activities %}
-            <tr>
-                <td>{{ item.activity_type.category_name }}</td>
-                <td>{{ item.ticket_number }} </td>
-                <td>{{ item.hours_worked }} </td>
-                <td>{{ item.description }} </td>
-                <td>{{ item.activity_date }} </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+</div>
 </div>
 {% endblock %}
 

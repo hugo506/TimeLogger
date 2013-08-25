@@ -61,25 +61,32 @@ def redmine(request):
         response_data['status'] = r.status_code
         if r.status_code == 200:
             response_data['ticket'] = r.json()
-        return HttpResponse(json.dumps(response_data), mimetype="application/json")
     else:
         response_data['status'] = 404
-        return HttpResponse(json.dumps(response_data), mimetype="application/json")
+    return HttpResponse(json.dumps(response_data), mimetype="application/json")
 
 
 @login_required
-def all_activities(request):
-    results = Activity.objects.filter(author__username=request.user.username)
+def all_activities(request, activity):
+    results = Activity.objects.filter(author=request.user)
+    if activity != '0':
+        results = results.filter(activity_type__id=activity)
+    context = {}
     paginator = Paginator(results, 8)
     page = request.GET.get('page')
-    try :
+    try:
         activities = paginator.page(page)
     except PageNotAnInteger:
         activities = paginator.page(1)
     except EmptyPage:
         activities = paginator.page(paginator.num_pages)
-    return render(request, "activities/all.html", {'activities' : activities})
+    context['activities'] = activities
+    context['active_category'] = int(activity)
+    context['categories'] = Category.objects.all()
+    return render(request, "activities/all.html", context)
 
+
+# generic editing view for updating activity
 class ActivityUpdate(UpdateView):
     model = Activity
     success_url = reverse_lazy('index')
@@ -93,6 +100,8 @@ class ActivityUpdate(UpdateView):
             raise Http404
         return obj
 
+
+# generic editing view for deleting activity
 class ActivityDelete(DeleteView):
     model = Activity
     success_url = reverse_lazy('index')

@@ -55,7 +55,7 @@
             <li><a href="{% url 'reports' %}">Reports</a></li>
             <li><a href="/admin">Admin</a></li>
             {% else %}
-            <li><a href="/all">All Entries</a></li>
+            <li><a href="{% url 'all_activities' 0 %}">All Entries</a></li>
             <li><a href="{% url 'my_reports' %}">View Reports</a></li>
             {% endif %}
             <li><a href="{% url 'leaves' %}">Manage Leaves</a></li>
