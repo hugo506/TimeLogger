@@ -73,7 +73,7 @@ def all_activities(request, activity):
     if activity != '0':
         results = results.filter(activity_type__id=activity)
     context = {}
-    paginator = Paginator(results, 8)
+    paginator = Paginator(results, 15)
     page = request.GET.get('page')
     try:
         activities = paginator.page(page)
