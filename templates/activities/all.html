@@ -39,9 +39,9 @@
             <thead>
                 <tr>
                     <th>Activity Type</th>
-                    <th>Ticket Number</th>
+                    <th>Ticket Info</th>
                     <th>Hours Worked</th>
-                    <th>Description</th>
+                    <th>Comment</th>
                     <th>Date</th>
                 </tr>
             </thead>
@@ -49,9 +49,9 @@
                 {% for item in activities %}
                 <tr>
                     <td>{{ item.activity_type.category_name }}</td>
-                    <td>{{ item.ticket_number }} </td>
+                    <td>{{ item.ticket_number }} - {{ item.description }}</td>
                     <td>{{ item.hours_worked }} </td>
-                    <td>{{ item.description }} </td>
+                    <td>{{ item.comment }} </td>
                     <td>{{ item.activity_date }} </td>
                 </tr>
                 {% endfor %}

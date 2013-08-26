@@ -26,7 +26,7 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
 class Activity(models.Model):
-    description = models.TextField(help_text="Acitivity description")
+    description = models.TextField(help_text="description of the ticket worked on", blank=True)
     activity_type = models.ForeignKey(Category, blank=False)
     activity_date = models.DateField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False)
@@ -34,6 +34,7 @@ class Activity(models.Model):
     hours_worked = models.DecimalField(default=0, decimal_places=3, max_digits=5)
     created_on = models.DateTimeField(auto_now_add=True)
     modified_on = models.DateTimeField(auto_now=True)
+    comment = models.TextField(help_text="Describe the task carried out", default="NA")
 
     def get_absolute_url(self):
         return reverse('activity-detail', kwargs={ 'pk': self.pk })

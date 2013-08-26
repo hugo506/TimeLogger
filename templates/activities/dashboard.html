@@ -41,6 +41,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="id_comment">Comment</label>
+                        {{ form.comment }}
+                    </div>
+
+                    <div class="form-group">
                         <label for="id_hours_worked">Hours Worked</label>
                         {{ form.hours_worked }}
                     </div>
@@ -81,19 +86,19 @@
                     <thead>
                         <tr>
                             <th>Activity Type</th>
-                            <th>Ticket #</th>
+                            <th>Ticket Info</th>
                             <th>Hours</th>
-                            <th>Description</th>
+                            <th>Comment</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in results.today %}
                         <tr>
                             <td>{{ item.activity_type.category_name }}</td>
-                            <td>{{ item.ticket_number }} </td>
+                            <td>{{ item.ticket_number }} - {{ item.description|truncatewords:8 }} </td>
                             <td>{{ item.hours_worked }} </td>
-                            <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" title="{{ item.description }}">
-                                    {{ item.description|truncatewords:8 }}</a>
+                            <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" title="{{ item.comment }}">
+                                    {{ item.comment|truncatewords:8 }}</a>
                                 <a href="{% url 'activity_delete' item.id %}">
                                     <button type="button" class="close" aria-hidden="true">&times;</button>
                                 </a>
@@ -116,9 +121,9 @@
                 <thead>
                     <tr>
                         <th>Activity Type</th>
-                        <th>Ticket #</th>
+                        <th>Ticket Info</th>
                         <th>Hours</th>
-                        <th>Description</th>
+                        <th>Comment</th>
                         <th>Date</th>
                     </tr>
                 </thead>
@@ -126,9 +131,10 @@
                     {% for item in results.last_seven_days %}
                     <tr>
                         <td>{{ item.activity_type.category_name }}</td>
-                        <td>{{ item.ticket_number }} </td>
+                        <td>{{ item.ticket_number }} - {{ item.description|truncatewords:8 }} </td>
                         <td>{{ item.hours_worked }} </td>
-                        <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" title=" {{ item.description }} ">{{ item.description|truncatewords:8 }}</a> </td>
+                        <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" 
+                                title=" {{ item.comment }} ">{{ item.comment|truncatewords:8 }}</a> </td>
                         <td>{{ item.activity_date|timesince:today }} ago 
                             <a href="{% url 'activity_delete' item.id %}" title="Delete activity?">
                                 <button type="button" class="close" aria-hidden="true">&times;</button>

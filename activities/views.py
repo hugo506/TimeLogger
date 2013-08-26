@@ -37,7 +37,8 @@ def index(request):
                                 activity_date=form.cleaned_data["activity_date"],
                                 activity_type=form.cleaned_data["activity_type"],
                                 ticket_number=form.cleaned_data["ticket_number"],
-                                hours_worked=form.cleaned_data["hours_worked"])
+                                hours_worked=form.cleaned_data["hours_worked"],
+                                comment=form.cleaned_data["comment"])
             activity.save()
             messages.add_message(request, messages.SUCCESS, "Activity added successfully!")
             return redirect(reverse('index'))

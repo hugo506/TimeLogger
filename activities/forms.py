@@ -2,14 +2,22 @@ from django import forms
 from activities.models import Activity, Category
 
 class ActivityForm(forms.ModelForm):
-    description = forms.CharField(widget=forms.widgets.Textarea(attrs={
-                                            'class':'form-control', 'cols':40, 'rows': 3}))
+    description = forms.CharField(widget=forms.widgets.TextInput(attrs={
+                                            'class':'form-control',
+                                            'placeholder': 'Ticket description'}))
     activity_date = forms.CharField(widget=forms.widgets.TextInput(attrs={
-                                            'class': 'form-control' }))
+                                            'class': 'form-control',
+                                            'placeholder': 'Date of activity'}))
     ticket_number = forms.CharField(widget=forms.widgets.TextInput(attrs={
-                                            'class': 'form-control' }))
+                                            'class': 'form-control',
+                                            'placeholder': 'Ticket worked on'}))
     hours_worked = forms.CharField(widget=forms.widgets.TextInput(attrs={
-                                            'class': 'form-control' }))
+                                            'class': 'form-control',
+                                            'placeholder': 'e.g. 2 or 1.5'}))
+    comment = forms.CharField(widget=forms.widgets.Textarea(attrs={
+                                            'class': 'form-control', 'cols' : 40, 'rows': 3,
+                                            'placeholder': 'Enter task description'}))
+
     class Meta:
         model = Activity
         exclude = ('author', )
