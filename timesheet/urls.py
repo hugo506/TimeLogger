@@ -13,6 +13,10 @@ urlpatterns = patterns('',
 
     url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
 
+    url(r'^password/$', 'django.contrib.auth.views.password_change', name="password_change"),
+
+    url(r'^password/changed/$', 'django.contrib.auth.views.password_change_done', name="password_change_done"),
+
     url(r'^logout/$', views.logout_view, name="logout"),
 
     url(r'^reports/$', views.reports, name="reports"),
