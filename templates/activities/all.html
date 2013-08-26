@@ -49,7 +49,7 @@
                 {% for item in activities %}
                 <tr>
                     <td>{{ item.activity_type.category_name }}</td>
-                    <td>{{ item.ticket_number }} - {{ item.description }}</td>
+                    <td>{{ item.ticket_number }} - {{ item.description|truncatewords:5 }}</td>
                     <td>{{ item.hours_worked }} </td>
                     <td>{{ item.comment }} </td>
                     <td>{{ item.activity_date }} </td>
