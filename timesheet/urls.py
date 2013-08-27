@@ -21,6 +21,8 @@ urlpatterns = patterns('',
 
     url(r'^reports/$', views.reports, name="reports"),
 
+    url(r'^export/$', views.export, name="export"),
+
     url(r'^myreports/$', views.my_reports, name="my_reports"),
 
     url(r'^activity/edit/(?P<pk>\d+)', login_required(views.ActivityUpdate.as_view()),
@@ -29,9 +31,9 @@ urlpatterns = patterns('',
     url(r'^activity/delete/(?P<pk>\d+)', login_required(views.ActivityDelete.as_view()),
                                          name="activity_delete"),
 
-    #url(r'^all/$', views.all_activities, name="all_activities"),
-
     url(r'^all/activity/(?P<activity>\d+)/$', views.all_activities, name="all_activities"),
+
+    url(r'^activities.json', views.activities_json, name="activities_json"),
 
     url(r'^redmine/$', views.redmine, name="redmine"),
 

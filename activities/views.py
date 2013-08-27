@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from activities.models import AuthorInfo, Category, Activity
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.core import serializers
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
@@ -51,7 +52,6 @@ def index(request):
 
     return render(request, "activities/dashboard.html", context)
 
-
 @login_required
 def redmine(request):
     response_data = {}
@@ -86,6 +86,24 @@ def all_activities(request, activity):
     context['categories'] = Category.objects.all()
     return render(request, "activities/all.html", context)
 
+
+@login_required
+def activities_json(request):
+    results = Activity.objects.filter(author=request.user)
+    paginator = Paginator(results, 100)
+    page = request.GET.get('page')
+    try:
+        activities = paginator.page(page)
+    except PageNotAnInteger:
+        activities = paginator.page(1)
+    except EmptyPage:
+        activities = paginator.page(paginator.num_pages)
+    return HttpResponse(serializers.serialize("json", activities), mimetype="application/json")
+
+
+@login_required
+def export(request):
+    return HttpResponse("hello world")
 
 # generic editing view for updating activity
 class ActivityUpdate(UpdateView):
