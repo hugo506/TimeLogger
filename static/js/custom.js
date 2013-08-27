@@ -24,11 +24,17 @@
 
     var seven_day_table = $('#seven_day_table');
     var activities_table = $('#activities_table');
+    var todays_table = $('#todays_table');
+
     if (seven_day_table) {
         $(seven_day_table).dataTable(dataTable_config);
     }
 
     if (activities_table) {
         $(activities_table).dataTable(dataTable_config);
+    }
+
+    if (todays_table) {
+        $(todays_table).dataTable(dataTable_config);
     }
 })();

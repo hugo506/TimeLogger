@@ -35,12 +35,12 @@
 
         <h4>All Entries</h4>
         <hr />
-        <table class="table table-striped" id="activities_table">
+        <table class="table table-striped table-bordered" id="activities_table">
             <thead>
                 <tr>
                     <th>Activity Type</th>
                     <th>Ticket Info</th>
-                    <th>Hours Worked</th>
+                    <th>Hours</th>
                     <th>Comment</th>
                     <th>Date</th>
                 </tr>
@@ -50,7 +50,7 @@
                 <tr>
                     <td>{{ item.activity_type.category_name }}</td>
                     <td>{{ item.ticket_number }} - {{ item.description|truncatewords:5 }}</td>
-                    <td>{{ item.hours_worked }} </td>
+                    <td>{{ item.hours_worked }} hrs </td>
                     <td>{{ item.comment }} </td>
                     <td>{{ item.activity_date }} </td>
                 </tr>
