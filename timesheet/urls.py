@@ -33,7 +33,9 @@ urlpatterns = patterns('',
 
     url(r'^all/activity/(?P<activity>\d+)/$', views.all_activities, name="all_activities"),
 
-    url(r'^activities.json', views.activities_json, name="activities_json"),
+    url(r'^api/activities', views.api_activities, name="api_activities"),
+
+    url(r'^api/categories', views.api_categories, name="api_categories"),
 
     url(r'^redmine/$', views.redmine, name="redmine"),
 

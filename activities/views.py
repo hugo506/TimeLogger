@@ -88,9 +88,9 @@ def all_activities(request, activity):
 
 
 @login_required
-def activities_json(request):
+def api_activities(request):
     results = Activity.objects.filter(author=request.user)
-    paginator = Paginator(results, 100)
+    paginator = Paginator(results, 10)
     page = request.GET.get('page')
     try:
         activities = paginator.page(page)
@@ -98,8 +98,16 @@ def activities_json(request):
         activities = paginator.page(1)
     except EmptyPage:
         activities = paginator.page(paginator.num_pages)
-    return HttpResponse(serializers.serialize("json", activities), mimetype="application/json")
+    fields = ("description", "ticket_number", "comment", "hours_worked", "activity_type")
+    data = serializers.serialize("json", activities, fields=fields)
+    return HttpResponse(data, mimetype="application/json")
 
+@login_required
+def api_categories(request):
+    results = Category.objects.all()
+    fields = ("category_name", "parent_category")
+    data = serializers.serialize("json", results, fields=fields)
+    return HttpResponse(data, mimetype="application/json")
 
 @login_required
 def export(request):
