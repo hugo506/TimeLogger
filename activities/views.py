@@ -282,6 +282,7 @@ def reports(request):
         bau_activities = list()
         project_activities = list()
         bugs_activities = list()
+        meeting_activities = list()
 
         for activity in activities:
             parent = activity.activity_type.parent_category # cache this
@@ -303,7 +304,7 @@ def reports(request):
             elif parent == "Bugs":
                 bugs_activities.append(activity)
             else:
-                pass
+                meeting_activities.append(activity)
 
         # graphs
         results['combined_work']  = dict(combined_work)
@@ -315,6 +316,7 @@ def reports(request):
         results["bau_activities"] = bau_activities
         results["project_activities"] = project_activities
         results["bugs_activities"] = bugs_activities
+        results["meeting_activities"] = meeting_activities
 
         context = { 'form' : form, 'show_data' : show_data, 'results': results }
 
