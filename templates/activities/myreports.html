@@ -35,13 +35,19 @@
 
     {% if show_data %}
         <div class="col-lg-9">
-            <h3>Results</h3> 
-            <p>Showing data from {{ results.start_date|date:"d M Y" }} - {{ results.end_date|date:"d M Y" }}</p>
-            <a href="{% url 'export' %}?start_date={{results.start_date}}&end_date={{results.end_date}}">Export Data</a>
+            <div class="row">
+                <div class="col-lg-9">
+                    <h3>Results</h3> 
+                    <p>Showing data from {{ results.start_date|date:"d M Y" }} - {{ results.end_date|date:"d M Y" }}</p>
+                </div>
+                <div class="col-lg-3">
+                    <a id="export-btn" class="btn btn-default btn-xs" href="{% url 'export' %}?start_date={{results.start_date|date:"m/d/Y"}}&end_date={{results.end_date|date:"m/d/Y"}}">Export Data (as csv)</a>
+                </div>
+            </div>
             <hr />
             <div class="row">
                 <div class="col-lg-8">
-                    {% pie_chart results.combined_work with library={"title": "Activities Distribution"} %}
+                    {% column_chart results.combined_work with library={"title": "Activities Distribution"} %}
                 </div>
                 <div class="col-lg-4">
                     <h4>Summary</h4>

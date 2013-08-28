@@ -137,8 +137,7 @@ def export(request):
     for item in activities:
         writer.writerow([item.activity_date, item.activity_type.category_name, item.ticket_number,
                         item.description, item.hours_worked, item.comment])
-    #return response
-    return render(request, "activities/testing.html")
+    return response
 
 # generic editing view for updating activity
 class ActivityUpdate(UpdateView):
