@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from activities.models import AuthorInfo, Category, Activity
+import csv
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.core import serializers
 from django.conf import settings
@@ -111,7 +112,33 @@ def api_categories(request):
 
 @login_required
 def export(request):
-    return HttpResponse("hello world")
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="export.csv"'
+
+    start_date_unclean = request.GET.get("start_date", False)
+    end_date_unclean = request.GET.get("end_date", False)
+
+    today = timezone.now().date()
+    if not start_date_unclean or not end_date_unclean:
+        start_date = today - datetime.timedelta(days=7)
+        end_date = today
+    else:
+        start_date = datetime.datetime.strptime(start_date_unclean, "%m/%d/%Y")
+        end_date = datetime.datetime.strptime(end_date_unclean, "%m/%d/%Y")
+
+    if start_date and end_date and (start_date < end_date):
+        activities = Activity.objects.filter(activity_date__gte=start_date)\
+                                     .filter(activity_date__lte=end_date)\
+                                     .filter(author=request.user)
+
+    writer = csv.writer(response)
+    writer.writerow(["activity_date", "activity_type", "ticket_number",
+                     "description", "hours_worked","comment"])
+    for item in activities:
+        writer.writerow([item.activity_date, item.activity_type.category_name, item.ticket_number,
+                        item.description, item.hours_worked, item.comment])
+    #return response
+    return render(request, "activities/testing.html")
 
 # generic editing view for updating activity
 class ActivityUpdate(UpdateView):
