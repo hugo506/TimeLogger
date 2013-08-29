@@ -239,7 +239,6 @@ def my_reports(request):
     return render(request, "activities/myreports.html", context)
 
 
-
 @permission_required('request.user.is_staff')
 def reports(request):
     form = ReportsDateForm()
