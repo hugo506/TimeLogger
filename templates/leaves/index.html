@@ -53,21 +53,26 @@
         {% endfor %}
     {% endif %}
     
-    <!-- PAGINATION SECTION -->
-    {% if leaves.has_previous %}
-        <a href="?page={{leaves.previous_page_number}}">&laquo; Prev</a>
-    {% endif %}
+    <div class="row">
+      <div class="col-lg-10">
+        <h4>Leaves</h4>
+      </div>
 
-    Page {{ leaves.number }} of {{ leaves.paginator.num_pages }}
+      <div class="col-lg-2">
+        <!-- PAGINATION SECTION -->
+        {% if leaves.has_previous %}
+            <a href="?page={{leaves.previous_page_number}}">&laquo; Prev</a>
+        {% endif %}
 
-    {% if leaves.has_next %}
-        <a href="?page={{leaves.next_page_number}}">Next &raquo;</a>
-    {% endif %}
-    <!-- END OF PAGINATION SECTION -->
+        Page {{ leaves.number }} of {{ leaves.paginator.num_pages }}
 
+        {% if leaves.has_next %}
+            <a href="?page={{leaves.next_page_number}}">Next &raquo;</a>
+        {% endif %}
+        <!-- END OF PAGINATION SECTION -->
+      </div>
+    </div>
     <!-- DASHBOARD DISPLAY -->
-    <h4>Leaves</h4>
-    <hr />
         {% if leaves %}
         <table class="table table-striped table-bordered">
             <thead>
