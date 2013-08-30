@@ -4,7 +4,7 @@
 
     {% if form.errors %} <div class="alert alert-info">Your username and password didn’t match. Please try again.</div> {% endif %}
 
-    <h2 class="form-signin-heading"><img src="{{ STATIC_URL }}img/logo.png" alt="logo" width="40px"/>TimeLogger!</h2>
+    <h2 class="form-signin-heading">TimeLogger!</h2>
     <hr />
     {% csrf_token %}
 
@@ -13,6 +13,6 @@
 
     <input type="submit" value="Sign in" class="btn btn-large btn-primary btn-block" />
     <input type="hidden" name="next" value="{{ next }}" />
-    <p class="small footer_msg">TimeSheet Management Software &copy; 2013</p>
+    <p class="small footer_msg">Made with <3 by @prakhar1989</p>
 </form>
 {% endblock %}
