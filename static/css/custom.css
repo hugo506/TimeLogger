@@ -1,6 +1,6 @@
 body {
   padding-bottom: 40px;
-  padding-top: 80px;
+  padding-top: 10px;
   font-family: "Open Sans";
 }
 .form-signin {
@@ -63,4 +63,21 @@ body {
   background: none repeat scroll 0 0 #1F9D6F;
 }
 
+.btn-default {
+  border: 0 none;
+  border-radius: 2px 2px 2px 2px;
+  font-size: 12px;
+  color: #FFFFFF;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: none repeat scroll 0 0 #23B27E;
+}
 
+.btn-default:hover{
+  background: none repeat scroll 0 0 #1F9D6F;
+  color: white;
+}
+
+.sidebar{
+  background: #eee;
+}

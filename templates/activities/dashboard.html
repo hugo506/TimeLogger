@@ -3,8 +3,7 @@
 {% block content %}
 <div class="row">
 <div class="col-lg-3">
-    <div class="panel panel-default">
-        <div class="panel-heading">Add a new activity!</div>
+    <div class="panel panel-default sidebar">
         <div class="panel-body">
             <!-- THE SIDEPANE -->
             <form id="new_activity_form" action="{% url 'index' %}" method="post"> {% csrf_token %}
@@ -75,8 +74,7 @@
     {% endif %}
     
     <!-- DASHBOARD DISPLAY -->
-    <h4>Your Recent Entries</h4>
-    <hr />
+    <h4>Recent Entries</h4>
 
     <div class="panel panel-default">
         <div id="today_activities_table" class="panel-heading"> Today </div>
@@ -107,11 +105,11 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                    <h4>You haven't logged any entries for today! </h4>
+                    <h6>Add an activity to get started</h6>
+                {% endif %}
             </div>
-            {% else %}
-                <h4>You haven't logged any entries for today! </h4>
-                <h6>Add an activity to get started</h6>
-            {% endif %}
     </div>
 
     <div class="panel panel-default">
@@ -146,7 +144,7 @@
             </table>
         </div>
         <div class="panel-footer">
-            <a id="more_entries_button" href="{% url 'all_activities' 0 %}" class="btn btn-default">See all entries &rarr;</a>
+            <a id="more_entries_button" href="{% url 'all_activities' 0 %}" class="btn btn-default">All entries &rarr;</a>
         </div>
     </div>
     
