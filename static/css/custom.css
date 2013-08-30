@@ -81,3 +81,16 @@ body {
 .sidebar{
   background: #eee;
 }
+
+.password-change-form {
+  background: #eee;
+}
+
+.password-change-form > h3{
+  color: #ccc;
+}
+
+.date-form{
+  background: #eee;
+  padding: 20px;
+}

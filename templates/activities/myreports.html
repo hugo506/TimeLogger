@@ -3,10 +3,8 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-lg-3 sidenav">
-        <h3>Dates</h3>
-        <p class="small">Enter dates to get started</p>
-        <hr />
+    <div class="col-lg-3">
+      <div class="date-form">
         <form action="{% url 'my_reports' %}" method="GET">
             <fieldset>
                 <!-- TODO: make this into a template -->
@@ -31,16 +29,19 @@
                 <input type="submit" value="Generate Reports!" class="btn btn-primary btn-lg btn-block"/>
             </fieldset>   
         </form>
+      
+      </div>
     </div>
     {% if show_data %}
         <div class="col-lg-9">
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-10">
                     <h3>Results</h3> 
                     <p>Showing data from {{ results.start_date|date:"d M Y" }} - {{ results.end_date|date:"d M Y" }}</p>
                 </div>
-                <div class="col-lg-3">
-                    <a id="export-btn" class="btn btn-default btn-xs" href="{% url 'export' %}?start_date={{results.start_date|date:"m/d/Y"}}&end_date={{results.end_date|date:"m/d/Y"}}">Export Data (as csv)</a>
+                <div class="col-lg-2">
+                  <a id="export-btn" class="btn btn-default" href="{% url 'export' %}?start_date={{results.start_date|date:"m/d/Y"}}&end_date={{results.end_date|date:"m/d/Y"}}">
+                    <span class="glyphicon glyphicon-share"></span> Export Data</a>
                 </div>
             </div>
             <hr />
