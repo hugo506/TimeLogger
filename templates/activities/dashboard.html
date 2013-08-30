@@ -2,152 +2,148 @@
 
 {% block content %}
 <div class="row">
-<div class="col-lg-3">
-    <div class="panel panel-default sidebar">
-        <div class="panel-body">
-            <!-- THE SIDEPANE -->
-            <form id="new_activity_form" action="{% url 'index' %}" method="post"> {% csrf_token %}
-                <fieldset>
-                    {% if form.errors %}
-                    <div class="bs-callout bs-callout-danger">
-                        <h4>Oops! There were errors in your form submission</h4>
-                        {% for field, errors in form.errors.items %}
-                            {% for error in errors %}
-                                <li>{{ field }} - {{ error }} </li>
-                            {% endfor %}
-                        {% endfor %}
-                    </div>
-                    {% endif %}
 
-                    <div class="form-group">
-                        <label for="id_activity_date">Activity Date</label>
-                        {{ form.activity_date }}
-                    </div>
+  <!-- SIDE BAR -->
+  <div class="col-lg-3">
+      <div class="panel panel-default sidebar">
+          <div class="panel-body">
+              <form id="new_activity_form" action="{% url 'index' %}" method="post"> {% csrf_token %}
+                  <fieldset>
+                      {% if form.errors %}
+                      <div class="bs-callout bs-callout-danger">
+                          <h4>Oops! There were errors in your form submission</h4>
+                          {% for field, errors in form.errors.items %}
+                              {% for error in errors %}
+                                  <li>{{ field }} - {{ error }} </li>
+                              {% endfor %}
+                          {% endfor %}
+                      </div>
+                      {% endif %}
 
-                    <div class="form-group">
-                        <label for="id_activity_type">Activity Type</label>
-                        {{ form.activity_type }}
-                    </div>
+                      <div class="form-group">
+                          <label for="id_activity_date">Activity Date</label>
+                          {{ form.activity_date }}
+                      </div>
 
-                    <div class="form-group">
-                        <label for="id_ticket_number">Ticket Number</label>
-                        {{ form.ticket_number }}
-                    </div>
+                      <div class="form-group">
+                          <label for="id_activity_type">Activity Type</label>
+                          {{ form.activity_type }}
+                      </div>
 
-                    <div class="form-group">
-                        <label for="id_description">Description</label>
-                        {{ form.description }}
-                    </div>
+                      <div class="form-group">
+                          <label for="id_ticket_number">Ticket Number</label>
+                          {{ form.ticket_number }}
+                      </div>
 
-                    <div class="form-group">
-                        <label for="id_comment">Comment</label>
-                        {{ form.comment }}
-                    </div>
+                      <div class="form-group">
+                          <label for="id_description">Description</label>
+                          {{ form.description }}
+                      </div>
 
-                    <div class="form-group">
-                        <label for="id_hours_worked">Hours Worked</label>
-                        {{ form.hours_worked }}
-                    </div>
+                      <div class="form-group">
+                          <label for="id_comment">Comment</label>
+                          {{ form.comment }}
+                      </div>
 
-                    <input type="submit" value="Add Activity!" class="btn btn-default btn-lg btn-block"/>
-                </fieldset>
-            </form>
-        </div>
-    </div>
-</div>
+                      <div class="form-group">
+                          <label for="id_hours_worked">Hours Worked</label>
+                          {{ form.hours_worked }}
+                      </div>
 
-<div class="col-lg-9">
-    <!-- >
-    <div class="alert alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>New to Timelogger?</strong> <a href="#" id="begin_tour">Click here</a> to try the product tour
-    </div>
-    -->
-    {% if messages %}
-    <!-- FLASH MESSAGES -->
-        {% for message in messages %}
-            <div class="alert alert-{{message.tags}} alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <strong>{{ message.tags|title }}</strong> {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-    
-    <!-- DASHBOARD DISPLAY -->
-    <h4>Recent Entries</h4>
+                      <input type="submit" value="Add Activity!" class="btn btn-default btn-lg btn-block"/>
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
 
-    <div class="panel panel-default">
-        <div id="today_activities_table" class="panel-heading"> Today </div>
-            {% if results.today %}
-            <div class="panel-body">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Activity Type</th>
-                            <th>Ticket Info</th>
-                            <th>Hours</th>
-                            <th>Comment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in results.today %}
-                        <tr>
-                            <td>{{ item.activity_type.category_name }}</td>
-                            <td>{{ item.ticket_number }} - {{ item.description|truncatewords:8 }} </td>
-                            <td>{{ item.hours_worked }} hrs</td>
-                            <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" title="{{ item.comment }}">
-                                    {{ item.comment|truncatewords:8 }}</a>
-                                <a href="{% url 'activity_delete' item.id %}">
-                                    <button type="button" class="close" aria-hidden="true">&times;</button>
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                    <h4>You haven't logged any entries for today! </h4>
-                    <h6>Add an activity to get started</h6>
-                {% endif %}
-            </div>
-    </div>
+  <!-- MAIN CONTENT -->
+  <div class="col-lg-9">
+      {% if messages %}
+      <!-- FLASH MESSAGES -->
+          {% for message in messages %}
+              <div class="alert alert-{{message.tags}} alert-dismissable">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <strong>{{ message.tags|title }}</strong> {{ message }}
+              </div>
+          {% endfor %}
+      {% endif %}
+      
+      <!-- DASHBOARD DISPLAY -->
+      <h4>Recent Entries</h4>
 
-    <div class="panel panel-default">
-        <div id="last_seven_activities_table" class="panel-heading">Last 7 days</div>
-        <div class="panel-body">
-            <table class="table table-striped table-bordered" id="seven_day_table">
-                <thead>
-                    <tr>
-                        <th>Activity Type</th>
-                        <th>Ticket Info</th>
-                        <th>Hours</th>
-                        <th>Comment</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in results.last_seven_days %}
-                    <tr>
-                        <td>{{ item.activity_type.category_name }}</td>
-                        <td>{{ item.ticket_number }} - {{ item.description|truncatewords:8 }} </td>
-                        <td>{{ item.hours_worked }} hrs</td>
-                        <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" 
-                                title=" {{ item.comment }} ">{{ item.comment|truncatewords:8 }}</a> </td>
-                        <td>{{ item.activity_date|timesince:today }} ago 
-                            <a href="{% url 'activity_delete' item.id %}" title="Delete activity?">
-                                <button type="button" class="close" aria-hidden="true">&times;</button>
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="panel-footer">
-            <a id="more_entries_button" href="{% url 'all_activities' 0 %}" class="btn btn-default">All entries &rarr;</a>
-        </div>
-    </div>
-    
-</div>
+      <div class="panel panel-default">
+          <div id="today_activities_table" class="panel-heading"> Today </div>
+              {% if results.today %}
+              <div class="panel-body">
+                  <table class="table table-striped table-bordered">
+                      <thead>
+                          <tr>
+                              <th>Activity Type</th>
+                              <th>Ticket Info</th>
+                              <th>Hours</th>
+                              <th>Comment</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for item in results.today %}
+                          <tr>
+                              <td>{{ item.activity_type.category_name }}</td>
+                              <td>{{ item.ticket_number }} - {{ item.description|truncatewords:8 }} </td>
+                              <td>{{ item.hours_worked }} hrs</td>
+                              <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" title="{{ item.comment }}">
+                                      {{ item.comment|truncatewords:8 }}</a>
+                                  <a href="{% url 'activity_delete' item.id %}">
+                                      <button type="button" class="close" aria-hidden="true">&times;</button>
+                                  </a>
+                              </td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                  {% else %}
+                      <h4>You haven't logged any entries for today! </h4>
+                      <h6>Add an activity to get started</h6>
+                  {% endif %}
+              </div>
+      </div>
+
+      <div class="panel panel-default">
+          <div id="last_seven_activities_table" class="panel-heading">Last 7 days</div>
+          <div class="panel-body">
+              <table class="table table-striped table-bordered" id="seven_day_table">
+                  <thead>
+                      <tr>
+                          <th>Activity Type</th>
+                          <th>Ticket Info</th>
+                          <th>Hours</th>
+                          <th>Comment</th>
+                          <th>Date</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for item in results.last_seven_days %}
+                      <tr>
+                          <td>{{ item.activity_type.category_name }}</td>
+                          <td>{{ item.ticket_number }} - {{ item.description|truncatewords:8 }} </td>
+                          <td>{{ item.hours_worked }} hrs</td>
+                          <td><a href="{% url 'activity_edit' item.id %}" class="description" data-toggle="tooltip" 
+                                  title=" {{ item.comment }} ">{{ item.comment|truncatewords:8 }}</a> </td>
+                          <td>{{ item.activity_date|timesince:today }} ago 
+                              <a href="{% url 'activity_delete' item.id %}" title="Delete activity?">
+                                  <button type="button" class="close" aria-hidden="true">&times;</button>
+                              </a>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="panel-footer">
+              <a id="more_entries_button" href="{% url 'all_activities' 0 %}" class="btn btn-default">All entries &rarr;</a>
+          </div>
+      </div>
+  </div>
+
 </div>
 {% endblock %}
