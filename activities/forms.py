@@ -1,5 +1,10 @@
 from django import forms
 from activities.models import Activity, Category
+from django.forms.widgets import TextInput
+
+class NumberInput(TextInput):
+    input_type = 'number'
+
 
 class ActivityForm(forms.ModelForm):
     description = forms.CharField(widget=forms.widgets.TextInput(attrs={
@@ -8,10 +13,12 @@ class ActivityForm(forms.ModelForm):
     activity_date = forms.CharField(widget=forms.widgets.TextInput(attrs={
                                             'class': 'form-control',
                                             'placeholder': 'Date of activity'}))
-    ticket_number = forms.CharField(widget=forms.widgets.TextInput(attrs={
+    ticket_number = forms.CharField(widget=NumberInput(attrs={
+                                            'step': '1',
                                             'class': 'form-control',
                                             'placeholder': 'Ticket worked on'}))
-    hours_worked = forms.CharField(widget=forms.widgets.TextInput(attrs={
+    hours_worked = forms.CharField(widget=NumberInput(attrs={
+                                            'step': '0.5',
                                             'class': 'form-control',
                                             'placeholder': 'e.g. 2 or 1.5'}))
     comment = forms.CharField(widget=forms.widgets.Textarea(attrs={

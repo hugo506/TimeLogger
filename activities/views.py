@@ -99,7 +99,8 @@ def api_activities(request):
         activities = paginator.page(1)
     except EmptyPage:
         activities = paginator.page(paginator.num_pages)
-    fields = ("description", "ticket_number", "comment", "hours_worked", "activity_type")
+    fields = ("description", "ticket_number", "comment",
+              "hours_worked", "activity_type", "created_on")
     data = serializers.serialize("json", activities, fields=fields)
     return HttpResponse(data, mimetype="application/json")
 
