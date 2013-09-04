@@ -209,8 +209,7 @@ def my_reports(request):
 
         for activity in activities:
             parent = activity.activity_type.parent_category
-
-            combined_work[parent] += int(round(activity.hours_worked))
+            combined_work[parent] += float(activity.hours_worked)
 
             # for tables
             if parent == "Support":
@@ -287,11 +286,11 @@ def reports(request):
             parent = activity.activity_type.parent_category # cache this
 
             # for graphs
-            combined_work[parent] += int(round(activity.hours_worked))
+            combined_work[parent] += float(activity.hours_worked)
             if author_onsite_team[activity.author]:
-                combined_work_onsite[parent] += int(round(activity.hours_worked))
+                combined_work_onsite[parent] += float(activity.hours_worked)
             else:
-                combined_work_offshore[parent] += int(round(activity.hours_worked))
+                combined_work_offshore[parent] += float(activity.hours_worked)
 
             # for tables
             if parent == "Support":
