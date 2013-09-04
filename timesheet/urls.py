@@ -37,6 +37,8 @@ urlpatterns = patterns('',
 
     url(r'^api/categories', views.api_categories, name="api_categories"),
 
+    url(r'^api/activity/(?P<activity_id>\d+)/$', views.api_activity, name="api_activity"),
+
     url(r'^redmine/$', views.redmine, name="redmine"),
 
     url(r'^leaves/$', leaves_views.index, name="leaves"),

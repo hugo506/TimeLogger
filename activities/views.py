@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from activities.models import AuthorInfo, Category, Activity
 import csv
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -110,6 +110,24 @@ def api_categories(request):
     fields = ("category_name", "parent_category")
     data = serializers.serialize("json", results, fields=fields)
     return HttpResponse(data, mimetype="application/json")
+
+@login_required
+def api_activity(request, activity_id):
+    result = get_object_or_404(Activity, pk=activity_id)
+    fields = ("description", "ticket_number", "comment",
+              "hours_worked", "activity_type", "created_on")
+    if result:
+        data = { 'description'     : result.description,
+                 'ticket_number'   : result.ticket_number,
+                 'activity_type'   : result.activity_type.category_name,
+                 'parent_category' : result.activity_type.parent_category,
+                 'comment'         : result.comment,
+                 'created_on'      : str(result.created_on.date()),
+                 'author'          : result.author.username,
+                 'hours_worked'    : float(result.hours_worked) }
+    else:
+        data = {}
+    return HttpResponse(json.dumps(data), mimetype="application/json")
 
 @login_required
 def export(request):
