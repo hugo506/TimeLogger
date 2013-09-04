@@ -58,11 +58,13 @@
     var modal_window = $('#activity_modal');
     var template = Handlebars.compile($('#modalinfo-template').html());
     $('.show_modal').on('click', function(){
+        NProgress.start();
         var activity_id = $(this).data('activity_id');
         $.get('/api/activity/' + activity_id, function(data){
             var html = template(data);
             $(modal_window).find('.modal-body').html(html);
             $(modal_window).modal();
+            NProgress.done();
         });
     });
 
