@@ -53,7 +53,6 @@
         $(todays_table).dataTable(dataTable_config);
     }
 
-
     // Modal configuration
     var modal_window = $('#activity_modal');
     var template = Handlebars.compile($('#modalinfo-template').html());

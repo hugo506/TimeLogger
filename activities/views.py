@@ -23,35 +23,41 @@ settings.LOGIN_URL = "/login"
 
 @login_required
 def index(request):
-    # list of activities posted by this user
     results = {}
     today = timezone.now()
-    results['all'] = Activity.objects.filter(author__username=request.user.username)
-    results['today'] = [item for item in results['all'] if item.activity_date == today.date()]
-    results['last_seven_days'] = [item for item in results['all'] \
-                                      if (item.activity_date + datetime.timedelta(days=7) > today.date() \
-                                          and item.activity_date < today.date())]
-    if request.method == "POST":
-        form = ActivityForm(request.POST)
-        if form.is_valid():
-            activity = Activity(author=request.user,
-                                description=form.cleaned_data["description"],
-                                activity_date=form.cleaned_data["activity_date"],
-                                activity_type=form.cleaned_data["activity_type"],
-                                ticket_number=form.cleaned_data["ticket_number"],
-                                hours_worked=form.cleaned_data["hours_worked"],
-                                comment=form.cleaned_data["comment"])
-            activity.save()
-            messages.add_message(request, messages.SUCCESS, "Activity added successfully!")
-            return redirect(reverse('index'))
+    if request.user.is_staff:
+        yesterday = today - datetime.timedelta(days=1)
+        results['yesterday'] = Activity.objects.filter(activity_date__lte=today)\
+                                               .filter(activity_date__gte=yesterday.date())
+        results['today'] = Activity.objects.filter(activity_date=today)
+        context = {'results': results, 'yesterday' : yesterday, 'today':  today}
+        return render(request, 'activities/admin_dashboard.html', context)
     else:
-        form = ActivityForm()
-    context = { 'name' : request.user.username,
-                'results' : results,
-                'form' : form ,
-                'today': today.date()}
-
-    return render(request, "activities/dashboard.html", context)
+        results['all'] = Activity.objects.filter(author__username=request.user.username)
+        results['today'] = [item for item in results['all'] if item.activity_date == today.date()]
+        results['last_seven_days'] = [item for item in results['all'] \
+                                          if (item.activity_date + datetime.timedelta(days=7) > today.date() \
+                                              and item.activity_date < today.date())]
+        if request.method == "POST":
+            form = ActivityForm(request.POST)
+            if form.is_valid():
+                activity = Activity(author=request.user,
+                                    description=form.cleaned_data["description"],
+                                    activity_date=form.cleaned_data["activity_date"],
+                                    activity_type=form.cleaned_data["activity_type"],
+                                    ticket_number=form.cleaned_data["ticket_number"],
+                                    hours_worked=form.cleaned_data["hours_worked"],
+                                    comment=form.cleaned_data["comment"])
+                activity.save()
+                messages.add_message(request, messages.SUCCESS, "Activity added successfully!")
+                return redirect(reverse('index'))
+        else:
+            form = ActivityForm()
+        context = { 'name' : request.user.username,
+                    'results' : results,
+                    'form' : form ,
+                    'today': today.date()}
+        return render(request, "activities/dashboard.html", context)
 
 @login_required
 def redmine(request):
