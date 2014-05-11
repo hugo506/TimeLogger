@@ -1,0 +1,5 @@
+ENABLE_REDMINE = True
+REDMINE_URL = "url"
+REDMINE_USERNAME = "user"
+REDMINE_PASSWORD = "pass"
+DEBUG = True
