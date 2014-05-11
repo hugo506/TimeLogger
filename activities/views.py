@@ -27,8 +27,7 @@ def index(request):
     today = timezone.now()
     if request.user.is_staff:
         yesterday = today - datetime.timedelta(days=1)
-        results['yesterday'] = Activity.objects.filter(activity_date__lte=today)\
-                                               .filter(activity_date__gte=yesterday.date())
+        results['yesterday'] = Activity.objects.filter(activity_date=yesterday.date())
         results['today'] = Activity.objects.filter(activity_date=today)
         context = {'results': results, 'yesterday' : yesterday, 'today':  today}
         return render(request, 'activities/admin_dashboard.html', context)
@@ -281,13 +280,10 @@ def reports(request):
 
     context = { 'form' : form }
 
-    if start_date and end_date and (start_date < end_date):
+    if start_date and end_date and (start_date <= end_date):
         show_data = True
 
         results = {}
-
-        # author - boolean representing onsite_team
-        author_onsite_team = {obj.author: obj.onsite_team for obj in AuthorInfo.objects.all()}
 
         # start and end date
         results['start_date'] = start_date
@@ -298,47 +294,15 @@ def reports(request):
                                      .filter(activity_date__lte=end_date)
 
         combined_work = defaultdict(int)
-        combined_work_onsite = defaultdict(int)
-        combined_work_offshore = defaultdict(int)
-        support_activities = list()
-        bau_activities = list()
-        project_activities = list()
-        bugs_activities = list()
-        meeting_activities = list()
 
         for activity in activities:
             parent = activity.activity_type.parent_category # cache this
 
             # for graphs
             combined_work[parent] += float(activity.hours_worked)
-            if author_onsite_team[activity.author]:
-                combined_work_onsite[parent] += float(activity.hours_worked)
-            else:
-                combined_work_offshore[parent] += float(activity.hours_worked)
-
-            # for tables
-            if parent == "Support":
-                support_activities.append(activity)
-            elif parent == "BAU":
-                bau_activities.append(activity)
-            elif parent == "Project":
-                project_activities.append(activity)
-            elif parent == "Bugs":
-                bugs_activities.append(activity)
-            else:
-                meeting_activities.append(activity)
 
         # graphs
         results['combined_work']  = dict(combined_work)
-        results['combined_work_onsite']  = dict(combined_work_onsite)
-        results['combined_work_offshore']  = dict(combined_work_offshore)
-
-        # tables
-        results["support_activities"] = support_activities
-        results["bau_activities"] = bau_activities
-        results["project_activities"] = project_activities
-        results["bugs_activities"] = bugs_activities
-        results["meeting_activities"] = meeting_activities
 
         context = { 'form' : form, 'show_data' : show_data, 'results': results }
 
