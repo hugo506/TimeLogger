@@ -40,7 +40,7 @@ class Activity(models.Model):
         return reverse('activity-detail', kwargs={ 'pk': self.pk })
 
     def __unicode__(self):
-        return self.description
+        return self.comment
 
     def get_parent_category(self):
         return self.activity_type.parent_category

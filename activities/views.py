@@ -87,9 +87,10 @@ def all_activities(request, activity):
         activities = paginator.page(1)
     except EmptyPage:
         activities = paginator.page(paginator.num_pages)
+
     context['activities'] = activities
     context['active_category'] = int(activity)
-    context['categories'] = Category.objects.all()
+    context['categories'] = set([a.activity_type for a in activities])
     return render(request, "activities/all.html", context)
 
 
@@ -224,38 +225,14 @@ def my_reports(request):
 
 
         combined_work = defaultdict(int)
-        support_activities = list()
-        bau_activities = list()
-        project_activities = list()
-        bugs_activities = list()
-        meeting_activities = list()
 
         for activity in activities:
             parent = activity.activity_type.parent_category
             combined_work[parent] += float(activity.hours_worked)
 
-            # for tables
-            if parent == "Support":
-                support_activities.append(activity)
-            elif parent == "BAU":
-                bau_activities.append(activity)
-            elif parent == "Project":
-                project_activities.append(activity)
-            elif parent == "Bugs":
-                bugs_activities.append(activity)
-            else:
-                meeting_activities.append(activity)
-
 
         # graphs
         results['combined_work']  = dict(combined_work)
-
-        # tables
-        results["support_activities"] = support_activities
-        results["bau_activities"] = bau_activities
-        results["project_activities"] = project_activities
-        results["bugs_activities"] = bugs_activities
-        results['meeting_activities'] = meeting_activities
 
         context = { 'form' : form, 'show_data' : show_data, 'results': results }
 

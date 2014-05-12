@@ -18,9 +18,8 @@ def commit(msg):
     local("git add . && git commit -am %s" % msg)
 
 def deploy():
-    prepare_deploy()
-    with cd(env.directory):
-        run("git pull")
+    #with cd(env.directory):
+        run("git pull --rebase")
     restart_service()
 
 def restart_service():
