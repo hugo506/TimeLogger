@@ -29,7 +29,7 @@ class ActivityForm(forms.ModelForm):
 
     def clean_hours_worked(self):
         MAX_HOURS = 4
-        if int(self.cleaned_data["hours_worked"]) >= MAX_HOURS:
+        if float(self.cleaned_data["hours_worked"]) > MAX_HOURS:
             raise forms.ValidationError("You cant add more than %d hours on any task" % MAX_HOURS)
         return self.cleaned_data["hours_worked"]
 
